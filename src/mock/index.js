@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 // import { login, logout, getUserInfo } from './login'
 // import { getMessageInit, getContentByMsgId, hasRead, removeReaded, restoreTrash, messageCount } from './user'
-// import { getProjectList } from './data'
+import { getProjectList } from './data'
 
 // 配置Ajax请求延时，可用来测试网络延迟大时项目中一些效果
 Mock.setup({
@@ -12,7 +12,8 @@ Mock.setup({
 // Mock.mock(/\/login/, login)
 // Mock.mock(/\/get_info/, getUserInfo)
 // Mock.mock(/\/logout/, logout)
-// Mock.mock(/\/get_project_list/, getProjectList)
+Mock.mock(/\/ListProjectsHandler.ashx/, getProjectList)
+
 // Mock.mock(/\/save_error_logger/, 'success')
 // Mock.mock(/\/message\/init/, getMessageInit)
 // Mock.mock(/\/message\/content/, getContentByMsgId)

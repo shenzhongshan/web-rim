@@ -76,15 +76,16 @@ export default {
       const id = idx
       const path = row.path
       const route = {
-        name: 'prjExplore',
+        name: 'show-prj',
         query: {
           name,
           path,
           id
         }
       }
-      let routeData = this.$router.resolve(route)
-      window.open(routeData.href, '_blank')
+      this.$router.push(route)
+      // let routeData = this.$router.resolve(route)
+      // window.open(routeData.href, '_blank')
     }
   }
 }

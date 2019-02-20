@@ -38,7 +38,7 @@ export default {
   },
   data () {
     return {
-      backTop: false
+      backTop: true
     }
   },
   mounted () {

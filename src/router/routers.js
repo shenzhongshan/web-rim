@@ -15,7 +15,8 @@ import Main from '@/components/main'
  *  beforeCloseName: (-) 设置该字段，则在关闭当前tab页时会去'@/router/before-close.js'里寻找该字段名对应的方法，作为关闭前的钩子函数
  * }
  */
-
+const menugroup = { template: '<router-view></router-view>' }
+const nullpage = { template: '<p></P>' }
 export default [
   {
     path: '/login',
@@ -83,7 +84,7 @@ export default [
     path: '/prj',
     name: 'prj',
     meta: {
-      hideInBread: true,
+      hideInBread: false,
       hideInMenu: true
     },
     component: Main,
@@ -142,5 +143,220 @@ export default [
       hideInMenu: true
     },
     component: () => import('@/view/error-page/404.vue')
+  },
+  {
+    path: '/multilevel',
+    name: 'multilevel',
+    meta: {
+      icon: 'md-menu',
+      title: '菜单1'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_1_1',
+        name: 'level_1_1',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-1-1'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_1_2',
+        name: 'level_1_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          title: '子菜单-1-2'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_1_3',
+        name: 'level_1_3',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-1-3'
+        },
+        component: nullpage
+      }
+    ]
+  },
+  {
+    path: '/multileve2',
+    name: 'multileve2',
+    meta: {
+      icon: 'md-menu',
+      title: '菜单2'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_2_1',
+        name: 'level_2_1',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-2-1'
+        },
+        component: menugroup,
+        children: [
+          {
+            path: 'level_2_1_1',
+            name: 'level_2_1_1',
+            meta: {
+              icon: 'md-funnel',
+              title: '子菜单-2-1-1'
+            },
+            component: nullpage
+          },
+          {
+            path: 'level_2_1_2',
+            name: 'level_2_1_2',
+            meta: {
+              icon: 'md-funnel',
+              title: '子菜单-2-1-2'
+            },
+            component: nullpage
+          }
+        ]
+      },
+      {
+        path: 'level_2_2',
+        name: 'level_2_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          title: '子菜单-2-2'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_2_3',
+        name: 'level_2_3',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-2-3'
+        },
+        component: nullpage
+      }
+    ]
+  },
+  {
+    path: '/multileve3',
+    name: 'multileve3',
+    meta: {
+      icon: 'md-menu',
+      title: '菜单3'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_3_1',
+        name: 'level_3_1',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-3-1'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_3_2',
+        name: 'level_3_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          title: '子菜单-3-2'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_3_3',
+        name: 'level_3_3',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-3-3'
+        },
+        component: nullpage
+      }
+    ]
+  },
+  {
+    path: '/multileve4',
+    name: 'multileve4',
+    meta: {
+      icon: 'md-menu',
+      title: '菜单4'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_4_1',
+        name: 'level_4_1',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-4-1'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_4_2',
+        name: 'level_4_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          title: '子菜单-4-2'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_4_3',
+        name: 'level_4_3',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-4-3'
+        },
+        component: nullpage
+      }
+    ]
+  },
+  {
+    path: '/multileve5',
+    name: 'multileve5',
+    meta: {
+      icon: 'md-menu',
+      title: '菜单5'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'level_5_1',
+        name: 'level_5_1',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-5-1'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_5_2',
+        name: 'level_5_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          title: '子菜单-5-2'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_5_3',
+        name: 'level_5_3',
+        meta: {
+          icon: 'md-funnel',
+          title: '子菜单-5-3'
+        },
+        component: nullpage
+      }
+    ]
   }
 ]

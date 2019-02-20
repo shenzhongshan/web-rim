@@ -38,12 +38,10 @@
 
 <script>
 /* eslint-disable */
-import DragDrawer from '_c/drag-drawer'
 import ControlPanel from './control-panel-te.vue'
 export default {
   name: 'TerraExplorer',
   components: {
-    DragDrawer,
     ControlPanel
   },
   props: {
