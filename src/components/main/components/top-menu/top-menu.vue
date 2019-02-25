@@ -43,7 +43,7 @@ export default {
     },
     theme: {
       type: String,
-      default: 'light'
+      default: 'primary'
     },
     activeName: {
       type: String,

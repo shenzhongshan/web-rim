@@ -24,7 +24,8 @@
       :mask="false"
       :mask-closable="false"
       :styles="{padding: '0'}"
-      @on-close="onCloseDrawer">
+      @on-close="onCloseDrawer"
+      v-if="sgWorld != null">
       <iframe frameborder="0" src="" style="position: absolute;right: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: -1;"></iframe>
       <div slot="header">
         <iframe frameborder="0" src="" style="position: absolute;right: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: -1;"></iframe>

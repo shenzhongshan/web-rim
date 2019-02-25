@@ -1,14 +1,14 @@
 <template>
-  <Layout style="height: 100%" class="main">
+  <Layout class="main">
       <Header class="header-con">
         <top-menu ref="topMenu" :active-name="$route.name" @on-select="turnToPage" :menu-list="menuList">
-          <img :src="maxLogo" class="logo">
+          <h2 class="logo">三维数字铁路网络应用系统</h2>
           <header-bar slot="hbar">
             <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
             <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
             <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
             <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
-        </header-bar>
+          </header-bar>
         </top-menu>
       </Header>
       <Content class="content-wrapper">

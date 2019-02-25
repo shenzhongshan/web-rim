@@ -1,9 +1,28 @@
 .main{
+  width: 100%;
+  height: 100%;
   .header-con{
-    padding: 0 0;
-    background: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: url(~@/assets/images/logo-bg.png) no-repeat;
+    background-size: 100% 70px;
     width: 100%;
     height: 70px;
+    .logo {
+      width: 100%;
+      height: 100%;
+      color:white;
+    }
+    .logo:before {
+      content: " ";
+      display: inline-block;
+      height: 50px;
+      width: 50px;
+      background: url(~@/assets/images/logo.jpg) no-repeat;
+      background-size: 100% 100%;
+    }
   }
   .content-wrapper{
     padding: 10px;

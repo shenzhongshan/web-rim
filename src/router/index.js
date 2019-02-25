@@ -1,17 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routers'
-import store from '@/store'
-import iView from 'iview'
-import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
-import config from '@/config'
-const { homeName } = config
+// import store from '@/store'
+// import iView from 'iview'
+// import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
+import { setTitle } from '@/libs/util'
+// import config from '@/config'
+// const { homeName } = config
 
 Vue.use(Router)
 const router = new Router({
   routes
   // mode: 'history'
 })
+/*
 const LOGIN_PAGE_NAME = 'login'
 
 const turnTo = (to, access, next) => {
@@ -51,10 +53,10 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
+*/
 router.afterEach(to => {
   setTitle(to, router.app)
-  iView.LoadingBar.finish()
+  // iView.LoadingBar.finish()
   window.scrollTo(0, 0)
 })
 
