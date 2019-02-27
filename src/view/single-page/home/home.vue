@@ -12,7 +12,9 @@
             打开
         </a>
         <div style="text-align:center">
-            <img :src="prj.logo || defaultPrjLogo" class="prj-logo">
+            <a herf="#" @click.prevent="openPrj(prj,idx)">
+              <img :src="prj.logo || defaultPrjLogo" class="prj-logo" >
+            </a>
             <Tooltip max-width="300" theme="light" :content="prj.desc">
               <pre class="desc">{{prj.desc}}</pre>
             </Tooltip>
