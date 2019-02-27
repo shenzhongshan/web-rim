@@ -3,12 +3,12 @@
     <Layout class="full">
       <Content>
         <Row class="row">
-          <Col span="20" class="hfull">
+          <i-Col span="20" class="hfull">
             <object ref="TE3DExternal"  classid="clsid:3a4f9196-65a8-11d5-85c1-0001023952c1"  width="100%" height="100%"></object>
-          </Col>
-          <Col span="4" class="hfull">
+          </i-Col>
+          <i-Col span="4" class="hfull">
             <object ref="TEInfoExternal" classid="clsid:3a4f919b-65a8-11d5-85c1-0001023952c1" width="100%" height="100%"></object>
-          </Col>
+          </i-Col>
         </Row>
       </Content>
       <Sider width='5'>

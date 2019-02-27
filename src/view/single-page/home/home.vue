@@ -1,5 +1,6 @@
 <template>
-  <div>
+<Row type="flex" justify="center">
+  <i-col span="24" class="content">
     <template v-for="(prj,idx) in prjList">
       <Card class="card" :key="`prj-${idx}`">
         <p slot="title" style="width:240px">
@@ -18,7 +19,8 @@
         </div>
       </Card>
     </template>
-  </div>
+  </i-col>
+</Row>
 </template>
 
 <script>
@@ -70,14 +72,17 @@ export default {
 </script>
 
 <style scoped lang="less">
+.content {
+   width: 1024px;
+}
 .card {
-  width: 330px;
-  height: 330px;
+  width: 320px;
+  height: 320px;
   float: left;
-  margin: 10px;
+  margin: 8px;
 }
 .prj-logo{
-  width: 300px;
+  width: 290px;
   height: 200px;
 }
 .desc {

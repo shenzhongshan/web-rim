@@ -2,7 +2,7 @@
   <Layout class="main">
       <Header class="header-con">
         <top-menu ref="topMenu" :active-name="$route.name" @on-select="turnToPage" :menu-list="menuList">
-          <h2 class="logo">三维数字铁路网络应用系统</h2>
+          <img :src="logo" class="logo">
           <header-bar slot="hbar">
             <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
             <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
@@ -29,9 +29,8 @@ import Language from './components/language'
 import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import routers from '@/router/routers'
-import minLogo from '@/assets/images/logo-min.png'
-import maxLogo from '@/assets/images/logo.png'
 import './main.less'
+import logo from '@/assets/images/logo.png'
 export default {
   name: 'Main',
   components: {
@@ -45,8 +44,7 @@ export default {
   },
   data () {
     return {
-      minLogo,
-      maxLogo,
+      logo: logo,
       isFullscreen: false
     }
   },

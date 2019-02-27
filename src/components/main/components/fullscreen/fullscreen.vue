@@ -79,6 +79,7 @@ export default {
   line-height: 30px;
   i{
     cursor: pointer;
+    color:whitesmoke;
   }
 }
 </style>
