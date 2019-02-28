@@ -5,7 +5,7 @@
         <slot></slot>
       </i-Col>
       <i-Col span="14">
-        <Menu ref="menu" mode="horizontal" :active-name="activeName"  :theme="theme" width="auto" @on-select="handleSelect">
+        <Menu ref="menu" mode="horizontal" :active-name="activeName"  :theme="theme"  @on-select="handleSelect">
           <template v-for="item in menuList">
             <template v-if="item.children && item.children.length === 1">
               <top-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></top-menu-item>
@@ -72,5 +72,5 @@ export default {
 }
 </script>
 <style lang="less">
-@import './top-menu.less';
+  @import './top-menu.less';
 </style>
