@@ -16,11 +16,13 @@ export default {
     homeRoute: {},
     local: localRead('local'),
     errorList: [],
-    hasReadErrorPage: false
+    hasReadErrorPage: false,
+    SGWorldCommand: null
   },
   getters: {
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    errorCount: state => state.errorList.length
+    errorCount: state => state.errorList.length,
+    sgWorldCanUse: state => Boolean(state.SGWorldCommand && state.SGWorldCommand.sgWorld)
   },
   mutations: {
     setBreadCrumb (state, route) {
@@ -29,7 +31,6 @@ export default {
     setHomeRoute (state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
     },
-
     setLocal (state, lang) {
       localSave('local', lang)
       state.local = lang
@@ -39,6 +40,9 @@ export default {
     },
     setHasReadErrorLoggerStatus (state, status = true) {
       state.hasReadErrorPage = status
+    },
+    setSGWorldCommand (state, sgWorldCommand) {
+      state.SGWorldCommand = sgWorldCommand
     }
   },
   actions: {

@@ -44,7 +44,6 @@ export default {
   },
   mounted () {
     this.getProjectList().then(() => {
-      debugger
       console.log(this.prjList)
     }).catch(error => console.log(error))
   },

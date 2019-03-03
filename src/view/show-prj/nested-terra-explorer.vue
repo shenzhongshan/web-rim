@@ -40,6 +40,8 @@
 <script>
 /* eslint-disable */
 import ControlPanel from './control-panel-te.vue'
+import sgWorldCommands from './sgWorld-commands'
+import { mapMutations } from 'vuex'
 export default {
   name: 'TerraExplorer',
   components: {
@@ -63,6 +65,9 @@ export default {
 
   },
   methods: {
+    ...mapMutations([
+      'setSGWorldCommand'
+    ]),
     dockDrawer (event) {
       console.log(event)
       this.showWindowBDrawer = true
@@ -94,6 +99,8 @@ export default {
         if (this.sgWorld) {
           this.sgWorld.AttachEvent('OnLoadFinished', () => this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal))
           this.sgWorld.Project.Open(this.projectURL)
+          sgWorldCommands.sgWorld = this.sgWorld
+          this.setSGWorldCommand(sgWorldCommands)
         }
     }
   },
@@ -106,12 +113,14 @@ export default {
   },
   destroyed () {
     console.log('destroyed!')
+    sgWorldCommands.sgWorld = null
   },
   activated () {
     console.log('activated!')
   },
   deactivated () {
     console.log('deactivated!')
+    sgWorldCommands.sgWorld = null
   }
 }
 </script>

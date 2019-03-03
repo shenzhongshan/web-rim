@@ -1,7 +1,7 @@
 <template>
   <Layout class="main">
       <Header class="header-con">
-        <top-menu ref="topMenu" :active-name="$route.name" @on-select="turnToPage" :menu-list="menuList">
+        <top-menu ref="topMenu" :active-name="$route.name" @on-select="handleClick" :menu-list="menuList">
           <img :src="logo" class="logo">
           <header-bar slot="hbar">
             <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
@@ -27,7 +27,7 @@ import ABackTop from './components/a-back-top'
 import Fullscreen from './components/fullscreen'
 import Language from './components/language'
 import ErrorStore from './components/error-store'
-import { mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapMutations, mapActions, mapGetters, mapState } from 'vuex'
 import routers from '@/router/routers'
 import './main.less'
 import logo from '@/assets/images/logo.png'
@@ -52,7 +52,9 @@ export default {
     ...mapGetters([
       'errorCount'
     ]),
-
+    ...mapState({
+      'SGWorldCommand': state => state.app.SGWorldCommand
+    }),
     userAvator () {
       return this.$store.state.user.avatorImgPath
     },
@@ -97,7 +99,17 @@ export default {
       })
     },
     handleClick (item) {
-      this.turnToPage(item)
+      if (typeof item === 'string') {
+        item = this.$router.match({ name: item })
+      }
+      if (this.SGWorldCommand && item.meta && item.meta.command && item.meta.command in this.SGWorldCommand) {
+      // if (this.SGWorldCommand && item && item in this.SGWorldCommand) {
+        if (this.SGWorldCommand.sgWorld) {
+          this.SGWorldCommand[item]()
+        }
+      } else {
+        this.turnToPage(item)
+      }
     }
   },
   watch: {

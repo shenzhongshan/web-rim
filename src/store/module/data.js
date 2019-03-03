@@ -20,7 +20,6 @@ export default {
     getProjectList ({ state, commit }) {
       return new Promise((resolve, reject) => {
         getProjectList().then(res => {
-          debugger
           const list = res.data
           commit('setProjectList', list)
           resolve()

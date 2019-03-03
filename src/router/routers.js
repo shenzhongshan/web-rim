@@ -15,10 +15,14 @@ import Main from '@/components/main'
  *  beforeCloseName: (-) 设置该字段，则在关闭当前tab页时会去'@/router/before-close.js'里寻找该字段名对应的方法，作为关闭前的钩子函数
  * }
  */
-const menugroup = { template: '<router-view></router-view>' }
-const nullpage = { template: '<p></P>' }
-export default [
-  {
+/* eslint-disable */
+const menugroup = {
+  template: '<router-view></router-view>'
+}
+const nullpage = {
+  template: '<p></P>'
+}
+export default [{
     path: '/login',
     name: 'login',
     meta: {
@@ -36,19 +40,17 @@ export default [
       hideInMenu: false,
       notCache: true
     },
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        meta: {
-          hideInMenu: false,
-          title: '首页',
-          notCache: true,
-          icon: 'md-home'
-        },
-        component: () => import('@/view/single-page/home')
-      }
-    ]
+    children: [{
+      path: '/home',
+      name: 'home',
+      meta: {
+        hideInMenu: false,
+        title: '首页',
+        notCache: true,
+        icon: 'md-home'
+      },
+      component: () => import('@/view/single-page/home')
+    }]
   },
   {
     path: '/message',
@@ -58,17 +60,15 @@ export default [
       hideInBread: true,
       hideInMenu: true
     },
-    children: [
-      {
-        path: 'message_page',
-        name: 'message_page',
-        meta: {
-          icon: 'md-notifications',
-          title: '消息中心'
-        },
-        component: () => import('@/view/single-page/message/index.vue')
-      }
-    ]
+    children: [{
+      path: 'message_page',
+      name: 'message_page',
+      meta: {
+        icon: 'md-notifications',
+        title: '消息中心'
+      },
+      component: () => import('@/view/single-page/message/index.vue')
+    }]
   },
   {
     path: '/prj-explore',
@@ -88,17 +88,15 @@ export default [
       hideInMenu: true
     },
     component: Main,
-    children: [
-      {
-        path: 'show-prj',
-        name: 'show-prj',
-        meta: {
-          icon: 'md-planet',
-          title: route => `项目 - ${route.query.name}`
-        },
-        component: () => import('@/view/show-prj/show-main.vue')
-      }
-    ]
+    children: [{
+      path: 'show-prj',
+      name: 'show-prj',
+      meta: {
+        icon: 'md-planet',
+        title: route => `项目 - ${route.query.name}`
+      },
+      component: () => import('@/view/show-prj/show-main.vue')
+    }]
   },
   {
     path: '/error_logger',
@@ -108,17 +106,15 @@ export default [
       hideInMenu: true
     },
     component: Main,
-    children: [
-      {
-        path: 'error_logger_page',
-        name: 'error_logger_page',
-        meta: {
-          icon: 'ios-bug',
-          title: '错误收集'
-        },
-        component: () => import('@/view/single-page/error-logger.vue')
-      }
-    ]
+    children: [{
+      path: 'error_logger_page',
+      name: 'error_logger_page',
+      meta: {
+        icon: 'ios-bug',
+        title: '错误收集'
+      },
+      component: () => import('@/view/single-page/error-logger.vue')
+    }]
   },
   {
     path: '/401',
@@ -145,77 +141,118 @@ export default [
     component: () => import('@/view/error-page/404.vue')
   },
   {
-    path: '/multilevel',
-    name: 'multilevel',
+    path: '/scheme',
+    name: 'scheme',
     meta: {
-      icon: 'md-menu',
-      title: '菜单1'
+      icon: 'md-planet',
+      title: '方案管理'
     },
     component: Main,
-    children: [
-      {
-        path: 'level_1_1',
-        name: 'level_1_1',
+    children: [{
+        path: 'projectShow',
+        name: 'projectShow',
         meta: {
           icon: 'md-funnel',
-          title: '子菜单-1-1'
+          title: '项目展示'
         },
         component: nullpage
       },
       {
-        path: 'level_1_2',
-        name: 'level_1_2',
+        path: 'saveProject',
+        name: 'saveProject',
         meta: {
-          access: ['super_admin'],
           icon: 'md-funnel',
-          title: '子菜单-1-2'
-        },
-        component: nullpage
+          command: 'saveProject',
+          title: '保存项目'
+        }
       },
       {
         path: 'level_1_3',
         name: 'level_1_3',
         meta: {
           icon: 'md-funnel',
-          title: '子菜单-1-3'
+          command: 'saveProject',
+          title: '查看纵断面'
+        }
+      },
+      {
+        path: 'level_1_4',
+        name: 'level_1_4',
+        meta: {
+          icon: 'md-funnel',
+          title: '提取纵断面'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_1_5',
+        name: 'level_1_5',
+        meta: {
+          icon: 'md-funnel',
+          title: '提取横断面'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_1_6',
+        name: 'level_1_6',
+        meta: {
+          icon: 'md-funnel',
+          title: '查看工程数量'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_1_7',
+        name: 'level_1_7',
+        meta: {
+          icon: 'md-funnel',
+          title: '生成行政区划表'
         },
         component: nullpage
       }
     ]
   },
   {
-    path: '/multileve2',
-    name: 'multileve2',
+    path: '/data_source',
+    name: 'dataSource',
     meta: {
-      icon: 'md-menu',
-      title: '菜单2'
+      icon: 'md-images',
+      title: '数据源'
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'level_2_1',
         name: 'level_2_1',
         meta: {
           icon: 'md-funnel',
-          title: '子菜单-2-1'
+          title: '加载'
         },
         component: menugroup,
-        children: [
-          {
+        children: [{
             path: 'level_2_1_1',
             name: 'level_2_1_1',
             meta: {
               icon: 'md-funnel',
-              title: '子菜单-2-1-1'
+              title: '加载网络地图'
             },
             component: nullpage
           },
           {
             path: 'level_2_1_2',
-            name: 'level_2_1_2',
+            name: 'level_2_1_3',
             meta: {
               icon: 'md-funnel',
-              title: '子菜单-2-1-2'
+              title: '加载KML/FLY文件'
+            },
+            component: nullpage
+          },
+          {
+            path: 'level_2_1_3',
+            name: 'level_2_1_3',
+            meta: {
+              icon: 'md-funnel',
+              title: '从服务器加载...'
             },
             component: nullpage
           }
@@ -225,38 +262,44 @@ export default [
         path: 'level_2_2',
         name: 'level_2_2',
         meta: {
-          access: ['super_admin'],
           icon: 'md-funnel',
-          title: '子菜单-2-2'
+          title: '导出'
         },
-        component: nullpage
-      },
-      {
-        path: 'level_2_3',
-        name: 'level_2_3',
-        meta: {
-          icon: 'md-funnel',
-          title: '子菜单-2-3'
-        },
-        component: nullpage
+        component: menugroup,
+        children: [{
+          path: 'level_2_2_1',
+          name: 'level_2_2_1',
+          meta: {
+            icon: 'md-funnel',
+            title: '导出KML'
+          },
+          component: nullpage
+        }, {
+          path: 'level_2_2_2',
+          name: 'level_2_2_2',
+          meta: {
+            icon: 'md-funnel',
+            title: '导出FLY'
+          },
+          component: nullpage
+        }]
       }
     ]
   },
   {
-    path: '/multileve3',
-    name: 'multileve3',
+    path: '/dyna_analog',
+    name: 'dynaAnalog',
     meta: {
-      icon: 'md-menu',
-      title: '菜单3'
+      icon: 'md-pulse',
+      title: '动态模拟'
     },
     component: Main,
-    children: [
-      {
+    children: [{
         path: 'level_3_1',
         name: 'level_3_1',
         meta: {
           icon: 'md-funnel',
-          title: '子菜单-3-1'
+          title: '横剖面图'
         },
         component: nullpage
       },
@@ -264,9 +307,8 @@ export default [
         path: 'level_3_2',
         name: 'level_3_2',
         meta: {
-          access: ['super_admin'],
           icon: 'md-funnel',
-          title: '子菜单-3-2'
+          title: '交通模拟'
         },
         component: nullpage
       },
@@ -275,88 +317,39 @@ export default [
         name: 'level_3_3',
         meta: {
           icon: 'md-funnel',
-          title: '子菜单-3-3'
+          title: '飞行鸟瞰'
+        },
+        component: nullpage
+      },
+      {
+        path: 'level_3_4',
+        name: 'level_3_4',
+        meta: {
+          icon: 'md-funnel',
+          title: '进度模拟'
         },
         component: nullpage
       }
     ]
   },
   {
-    path: '/multileve4',
-    name: 'multileve4',
+    path: '/person',
+    name: 'person',
     meta: {
-      icon: 'md-menu',
-      title: '菜单4'
+      icon: 'md-people',
+      title: '人员管理',
+      hideInMenu: false
     },
     component: Main,
-    children: [
-      {
-        path: 'level_4_1',
-        name: 'level_4_1',
-        meta: {
-          icon: 'md-funnel',
-          title: '子菜单-4-1'
-        },
-        component: nullpage
+    children: [{
+      path: 'index',
+      name: 'index',
+      meta: {
+        icon: 'md-people',
+        title: '人员管理',
+        hideInMenu: false
       },
-      {
-        path: 'level_4_2',
-        name: 'level_4_2',
-        meta: {
-          access: ['super_admin'],
-          icon: 'md-funnel',
-          title: '子菜单-4-2'
-        },
-        component: nullpage
-      },
-      {
-        path: 'level_4_3',
-        name: 'level_4_3',
-        meta: {
-          icon: 'md-funnel',
-          title: '子菜单-4-3'
-        },
-        component: nullpage
-      }
-    ]
-  },
-  {
-    path: '/multileve5',
-    name: 'multileve5',
-    meta: {
-      icon: 'md-menu',
-      title: '菜单5'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'level_5_1',
-        name: 'level_5_1',
-        meta: {
-          icon: 'md-funnel',
-          title: '子菜单-5-1'
-        },
-        component: nullpage
-      },
-      {
-        path: 'level_5_2',
-        name: 'level_5_2',
-        meta: {
-          access: ['super_admin'],
-          icon: 'md-funnel',
-          title: '子菜单-5-2'
-        },
-        component: nullpage
-      },
-      {
-        path: 'level_5_3',
-        name: 'level_5_3',
-        meta: {
-          icon: 'md-funnel',
-          title: '子菜单-5-3'
-        },
-        component: nullpage
-      }
-    ]
+      component: nullpage
+    }]
   }
 ]
