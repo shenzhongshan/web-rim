@@ -1,4 +1,6 @@
 import Main from '@/components/main'
+import menugroup from '@/components/menu-group.vue'
+import nullpage from '@/view/unimpl.vue'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -16,12 +18,6 @@ import Main from '@/components/main'
  * }
  */
 /* eslint-disable */
-const menugroup = {
-  template: '<router-view></router-view>'
-}
-const nullpage = {
-  template: '<p></P>'
-}
 export default [{
     path: '/login',
     name: 'login',
@@ -240,7 +236,7 @@ export default [{
           },
           {
             path: 'level_2_1_2',
-            name: 'level_2_1_3',
+            name: 'level_2_1_2',
             meta: {
               icon: 'md-funnel',
               title: '加载KML/FLY文件'
