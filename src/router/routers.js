@@ -163,35 +163,37 @@ export default [{
         }
       },
       {
-        path: 'level_1_3',
-        name: 'level_1_3',
+        path: 'view_vertical_section',
+        name: 'viewVerticalSection',
         meta: {
           icon: 'md-funnel',
-          command: 'saveProject',
+          command: 'viewVerticalSection',
           title: '查看纵断面'
         }
       },
       {
-        path: 'level_1_4',
-        name: 'level_1_4',
+        path: 'extract_cross_section',
+        name: 'extractCrossSection',
         meta: {
           icon: 'md-funnel',
-          title: '提取纵断面'
-        },
-        component: nullpage
-      },
-      {
-        path: 'level_1_5',
-        name: 'level_1_5',
-        meta: {
-          icon: 'md-funnel',
+          command: 'extractCrossSection',
           title: '提取横断面'
         },
         component: nullpage
       },
       {
-        path: 'level_1_6',
-        name: 'level_1_6',
+        path: 'extractVerticalSection',
+        name: 'extractVerticalSection',
+        meta: {
+          icon: 'md-funnel',
+          command: 'extractCrossSection',
+          title: '提取纵断面'
+        },
+        component: nullpage
+      },
+      {
+        path: 'check_project_number',
+        name: 'checkProjectNumber',
         meta: {
           icon: 'md-funnel',
           title: '查看工程数量'
@@ -199,8 +201,8 @@ export default [{
         component: nullpage
       },
       {
-        path: 'level_1_7',
-        name: 'level_1_7',
+        path: 'gen_administrative_divisions',
+        name: 'genAdministrativeDivisions',
         meta: {
           icon: 'md-funnel',
           title: '生成行政区划表'
@@ -218,36 +220,39 @@ export default [{
     },
     component: Main,
     children: [{
-        path: 'level_2_1',
-        name: 'level_2_1',
+        path: 'load',
+        name: 'dataSourceLoad',
         meta: {
           icon: 'md-funnel',
           title: '加载'
         },
         component: menugroup,
         children: [{
-            path: 'level_2_1_1',
-            name: 'level_2_1_1',
+            path: 'imap',
+            name: 'loadIMap',
             meta: {
               icon: 'md-funnel',
+              command: 'loadIMap',
               title: '加载网络地图'
             },
             component: nullpage
           },
           {
-            path: 'level_2_1_2',
-            name: 'level_2_1_2',
+            path: 'kml_fly_file',
+            name: 'loadKmlFly',
             meta: {
               icon: 'md-funnel',
+              command: 'loadKmlFly',
               title: '加载KML/FLY文件'
             },
             component: nullpage
           },
           {
-            path: 'level_2_1_3',
-            name: 'level_2_1_3',
+            path: 'from_server',
+            name: 'loadFromServer',
             meta: {
               icon: 'md-funnel',
+              command: 'loadFromServer',
               title: '从服务器加载...'
             },
             component: nullpage
@@ -255,26 +260,28 @@ export default [{
         ]
       },
       {
-        path: 'level_2_2',
-        name: 'level_2_2',
+        path: 'export',
+        name: 'dataSourceExport',
         meta: {
           icon: 'md-funnel',
           title: '导出'
         },
         component: menugroup,
         children: [{
-          path: 'level_2_2_1',
-          name: 'level_2_2_1',
+          path: 'kml',
+          name: 'exportKML',
           meta: {
             icon: 'md-funnel',
+            command: 'exportKML',
             title: '导出KML'
           },
           component: nullpage
         }, {
-          path: 'level_2_2_2',
-          name: 'level_2_2_2',
+          path: 'fly',
+          name: 'exportFLY',
           meta: {
             icon: 'md-funnel',
+            command: 'exportFLY',
             title: '导出FLY'
           },
           component: nullpage
@@ -291,37 +298,41 @@ export default [{
     },
     component: Main,
     children: [{
-        path: 'level_3_1',
-        name: 'level_3_1',
+        path: 'cross_section_map',
+        name: 'analogCrossSectionMap',
         meta: {
           icon: 'md-funnel',
+          command: 'analogCrossSectionMap',
           title: '横剖面图'
         },
         component: nullpage
       },
       {
-        path: 'level_3_2',
-        name: 'level_3_2',
+        path: 'traffic',
+        name: 'analogTraffic',
         meta: {
           icon: 'md-funnel',
+          command: 'analogTraffic',
           title: '交通模拟'
         },
         component: nullpage
       },
       {
-        path: 'level_3_3',
-        name: 'level_3_3',
+        path: 'flight',
+        name: 'analogflight',
         meta: {
           icon: 'md-funnel',
+          command: 'analogflight',
           title: '飞行鸟瞰'
         },
         component: nullpage
       },
       {
-        path: 'level_3_4',
-        name: 'level_3_4',
+        path: 'progress',
+        name: 'analogProgress',
         meta: {
           icon: 'md-funnel',
+          command: 'analogProgress',
           title: '进度模拟'
         },
         component: nullpage

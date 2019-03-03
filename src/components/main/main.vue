@@ -103,9 +103,8 @@ export default {
         item = this.$router.match({ name: item })
       }
       if (this.SGWorldCommand && item.meta && item.meta.command && item.meta.command in this.SGWorldCommand) {
-      // if (this.SGWorldCommand && item && item in this.SGWorldCommand) {
         if (this.SGWorldCommand.sgWorld) {
-          this.SGWorldCommand[item]()
+          this.SGWorldCommand[item.meta.command]()
         }
       } else {
         this.turnToPage(item)
