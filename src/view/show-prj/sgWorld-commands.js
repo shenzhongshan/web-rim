@@ -11,6 +11,7 @@ const sgWorldCommands = {
   },
   // 查看纵断面
   viewVerticalSection: function () {
+    debugger
     if (this.sgWorld) {
       let itemName = '基线'
       let url = ''
@@ -20,17 +21,17 @@ const sgWorldCommands = {
       let flags = HTML_POPUP_ALLOW_DRAG | HTML_POPUP_ALLOW_RESIZE
       let prefixUrl = window.location.origin + this.baseUrl
       debugger
-      if (itemName.indexOf('基线') > 0) {
+      if (itemName.indexOf('基线') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + ObjID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
-      } else if (itemName.indexOf('桥') > 0) {
+      } else if (itemName.indexOf('桥') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/BridgeChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
-      } else if (itemName.indexOf('隧道') > 0) {
+      } else if (itemName.indexOf('隧道') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/TunnelChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
