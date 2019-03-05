@@ -12,24 +12,26 @@ const sgWorldCommands = {
   // 查看纵断面
   viewVerticalSection: function () {
     if (this.sgWorld) {
-      let itemName = ''
+      let itemName = '基线'
       let url = ''
+      let ObjID = ''
+      let mCurID = ''
+      let mCurCaseID = ''
       let flags = HTML_POPUP_ALLOW_DRAG | HTML_POPUP_ALLOW_RESIZE
-      alert(this.baseUrl)
-      alert('基线')
+      let prefixUrl = window.location.origin + this.baseUrl
       debugger
       if (itemName.indexOf('基线') > 0) {
-        url = this.baseUrl + '\\plugins\\ZDMDesigner\\ZDMChart.html?ObjID=' + ObjID + '&CaseID=' + StaticCommon.mCurCaseID + '&Step=50&Caption=纵断面'
+        url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + ObjID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
       } else if (itemName.indexOf('桥') > 0) {
-        url = '\\plugins\\ZDMDesigner\\BridgeChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
+        url = prefixUrl + 'plugins/ZDMDesigner/BridgeChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
       } else if (itemName.indexOf('隧道') > 0) {
-        url = '\\plugins\\ZDMDesigner\\TunnelChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
+        url = prefixUrl + 'plugins/ZDMDesigner/TunnelChart.html?ObjID=' + mCurID + '&Step=25&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
@@ -51,7 +53,8 @@ const sgWorldCommands = {
   // 加载网络地图
   loadIMap: function () {
     if (this.sgWorld) {
-      this.sgWorld.ProjectTree.LoadFlyLayer('RES\\地理环境.fly', '')
+      let prefixUrl = window.location.origin + this.baseUrl
+      this.sgWorld.ProjectTree.LoadFlyLayer(prefixUrl + 'mapres/地理环境.fly', '')
     }
   },
   // 加载KML/FLY文件
