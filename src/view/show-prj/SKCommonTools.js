@@ -1,7 +1,6 @@
-
+/* eslint-disable */
 import {ItemCode, AccuracyLevel} from './SGWorldAPIEnums.js'
 
-/* eslint-disable */
 class SKCommonTools {
 
   constructor (sgworld){
@@ -34,12 +33,12 @@ class SKCommonTools {
       return this.mSGWorld.Creator.CreateColor(r, g, b, a);
   }
 
-  /// <summary>
-  /// 递归遍历查找ParentID节点下所有的节点名称为objName的所有ID
-  /// </summary>
-  /// <param name="objName"></param>
-  /// <param name="ParentID"></param>
-  /// <returns></returns>
+  // <summary>
+  // 递归遍历查找ParentID节点下所有的节点名称为objName的所有ID
+  // </summary>
+  // <param name="objName"></param>
+  // <param name="ParentID"></param>
+  // <returns></returns>
   FindObjectID(objName, ParentID) {
       mIDs = [];
       try{
@@ -55,7 +54,7 @@ class SKCommonTools {
               }
               ChildID = this.mSGWorld.ProjectTree.GetNextItem(ChildID, ItemCode.NEXT);
           }
-      } catch {
+      } catch(e) {
           // return mIDs;
           // Nonthing
       }
@@ -104,7 +103,7 @@ class SKCommonTools {
 
   }
 
-  //获取某个目录下的所有节点ID
+  // 获取某个目录下的所有节点ID
   GetGroupFeaturesID(ParentGroupId)
   {
       let mRes = [];
@@ -119,10 +118,10 @@ class SKCommonTools {
       }
   }
 
-  /// <summary>
-  /// 清空Group，但不删除该Group
-  /// </summary>
-  /// <param name="GroupId"></param>
+  // <summary>
+  // 清空Group，但不删除该Group
+  // </summary>
+  // <param name="GroupId"></param>
   ClearGroup(GroupId) {
       let ChildID = this.mSGWorld.ProjectTree.GetNextItem(GroupId, ItemCode.CHILD);
       if (!ChildID ||  trim(ChildID)) return;

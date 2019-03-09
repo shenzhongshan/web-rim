@@ -1,28 +1,33 @@
+/* eslint-disable */
+import {_HTML_POPUP_FLAGS } from './SGWorldAPIEnums.js'
+import SKCommonTools from './SKCommonTools.js'
+import HDMCrossBox from './HDMCrossBox.js'
+import MoniTrackor from './MoniTrackor.js'
 
-const HTML_POPUP_ALLOW_DRAG = 2
-const HTML_POPUP_ALLOW_RESIZE = 32
-const sgWorldCommands = {
-  sgWorld: null,
-  baseUrl: process.env.BASE_URL,
-  saveProject: function () {
+class SGWorldCommands {
+  constructor (sgworld) {
+    this.sgWorld = sgworld
+    this.baseUrl = process.env.BASE_URL
+    this.skTools = new SKCommonTools(sgworld)
+  }
+  saveProject () {
     if (this.sgWorld) {
       this.sgWorld.Project.Save()
     }
-  },
+  }
   // 查看纵断面
-  viewVerticalSection: function () {
+  viewVerticalSection () {
     debugger
     if (this.sgWorld) {
-      let itemName = '基线'
+      let itemName = this.skTools.GetSelFeatureName()
       let url = ''
-      let ObjID = ''
-      let mCurID = ''
-      let mCurCaseID = ''
-      let flags = HTML_POPUP_ALLOW_DRAG | HTML_POPUP_ALLOW_RESIZE
+      let mCurID = this.skTools.GetSelFeature()
+      let mCurCaseID = this.skTools.JudgeProjectNode(mCurID)
+      let flags = _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_DRAG | _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_RESIZE
       let prefixUrl = window.location.origin + this.baseUrl
       debugger
       if (itemName.indexOf('基线') > -1) {
-        url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + ObjID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
+        url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + mCurID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
@@ -38,75 +43,79 @@ const sgWorldCommands = {
         this.sgWorld.Window.ShowPopup(msg)
       }
     }
-  },
+  }
   // 提取纵断面
-  extractVerticalSection: function () {
-    if (this.sgWorld) {
-      alert('todo')
-    }
-  },
-  // 提取横断面
-  extractCrossSection: function () {
-    if (this.sgWorld) {
-      alert('todo')
-    }
-  },
-  // 加载网络地图
-  loadIMap: function () {
-    if (this.sgWorld) {
-      let prefixUrl = window.location.origin + this.baseUrl
-      this.sgWorld.ProjectTree.LoadFlyLayer(prefixUrl + 'mapres/地理环境.fly', '')
-    }
-  },
-  // 加载KML/FLY文件
-  loadKmlFly: function () {
-    if (this.sgWorld) {
-      this.sgWorld.Creator.CreateKMLLayer()
-      this.sgWorld.ProjectTree.LoadFlyLayer()
-    }
-  },
-  // 从服务器加载...
-  loadFromServer: function () {
-    if (this.sgWorld) {
-      this.sgWorld.Command.Execute(1143, 0)
-    }
-  },
-  // 导出KML
-  exportKML: function () {
-    if (this.sgWorld) {
-      this.sgWorld.ProjectTree.SaveAsKml()
-    }
-  },
-  // 导出FLY
-  exportFLY: function () {
-    if (this.sgWorld) {
-      this.sgWorld.ProjectTree.SaveAsFly()
-    }
-  },
-  // 横剖面图
-  analogCrossSectionMap: function () {
-    if (this.sgWorld) {
-      alert('todo')
-    }
-  },
-  // 交通模拟
-  analogTraffic: function () {
-    if (this.sgWorld) {
-      alert('todo')
-    }
-  },
-  // 飞行鸟瞰
-  analogflight: function () {
-    if (this.sgWorld) {
-      alert('todo')
-    }
-  },
-  // 进度模拟
-  analogProgress: function () {
+  extractVerticalSection () {
     if (this.sgWorld) {
       alert('todo')
     }
   }
+  // 提取横断面
+  extractCrossSection () {
+    if (this.sgWorld) {
+      alert('todo')
+    }
+  }
+  // 加载网络地图
+  loadIMap () {
+    if (this.sgWorld) {
+      let prefixUrl = window.location.origin + this.baseUrl
+      this.sgWorld.ProjectTree.LoadFlyLayer(prefixUrl + 'mapres/地理环境.fly', '')
+    }
+  }
+  // 加载KML/FLY文件
+  loadKmlFly () {
+    if (this.sgWorld) {
+      this.sgWorld.Creator.CreateKMLLayer()
+      this.sgWorld.ProjectTree.LoadFlyLayer()
+    }
+  }
+  // 从服务器加载...
+  loadFromServer () {
+    if (this.sgWorld) {
+      this.sgWorld.Command.Execute(1143, 0)
+    }
+  }
+  // 导出KML
+  exportKML () {
+    if (this.sgWorld) {
+      this.sgWorld.ProjectTree.SaveAsKml()
+    }
+  }
+  // 导出FLY
+  exportFLY () {
+    if (this.sgWorld) {
+      this.sgWorld.ProjectTree.SaveAsFly()
+    }
+  }
+  // 横剖面图
+  analogCrossSectionMap () {
+    if (this.sgWorld) {
+      let mHDMProfile = new HDMCrossBox()
+      mHDMProfile.Start()
+    }
+  }
+  // 交通模拟
+  analogTraffic () {
+    if (this.sgWorld) {
+      let mTrack = new MoniTrackor()
+      mTrack.Run()
+    }
+  }
+  // 飞行鸟瞰
+  analogflight () {
+    if (this.sgWorld) {
+      let mTrack = new MoniTrackor()
+      mTrack.Fly()
+    }
+  }
+  // 进度模拟
+  analogProgress () {
+    if (this.sgWorld) {
+      // let mShow = new TimeSliderBar();
+      // mShow.Show();
+    }
+  }
 }
 
-export default sgWorldCommands
+export default SGWorldCommands

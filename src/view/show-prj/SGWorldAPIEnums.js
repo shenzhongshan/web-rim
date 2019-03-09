@@ -6,6 +6,7 @@ var ActionCode = {}; ActionCode.AC_FLYTO = 0; ActionCode.AC_CIRCLEPATTERN = 1; A
 const CircularRouteType ={CRT_STOP_AT_THE_END:0,CRT_MOVE_TO_START:1,CRT_JUMP_TO_START:2}
 
 export default {
+  _HTML_POPUP_FLAGS,
   AccuracyLevel,
   ItemCode,
   AltitudeTypeCode,
