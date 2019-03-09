@@ -150,7 +150,7 @@ class SKCommonTools {
   }
 
   // 得到当前选择节点的节点对象
-  GetSelFeature() {
+  GetSelFeature() {debugger
       let id = this.mSGWorld.ProjectTree.GetNextItem(this.mSGWorld.ProjectTree.RootID, ItemCode.SELECTED);
       if (!id || id == "") return null;
       return this.mSGWorld.ProjectTree.GetObject(id)

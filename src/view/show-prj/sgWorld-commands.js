@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {_HTML_POPUP_FLAGS } from './SGWorldAPIEnums.js'
+import { _HTML_POPUP_FLAGS } from './SGWorldAPIEnums.js'
 import SKCommonTools from './SKCommonTools.js'
 import HDMCrossBox from './HDMCrossBox.js'
 import MoniTrackor from './MoniTrackor.js'
@@ -17,7 +17,6 @@ class SGWorldCommands {
   }
   // 查看纵断面
   viewVerticalSection () {
-    debugger
     if (this.sgWorld) {
       let itemName = this.skTools.GetSelFeatureName()
       let url = ''
@@ -25,7 +24,6 @@ class SGWorldCommands {
       let mCurCaseID = this.skTools.JudgeProjectNode(mCurID)
       let flags = _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_DRAG | _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_RESIZE
       let prefixUrl = window.location.origin + this.baseUrl
-      debugger
       if (itemName.indexOf('基线') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + mCurID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
@@ -91,21 +89,21 @@ class SGWorldCommands {
   // 横剖面图
   analogCrossSectionMap () {
     if (this.sgWorld) {
-      let mHDMProfile = new HDMCrossBox()
+      let mHDMProfile = new HDMCrossBox(this.sgWorld, null)
       mHDMProfile.Start()
     }
   }
   // 交通模拟
   analogTraffic () {
     if (this.sgWorld) {
-      let mTrack = new MoniTrackor()
+      let mTrack = new MoniTrackor(this.sgWorld, null)
       mTrack.Run()
     }
   }
   // 飞行鸟瞰
   analogflight () {
     if (this.sgWorld) {
-      let mTrack = new MoniTrackor()
+      let mTrack = new MoniTrackor(this.sgWorld, null)
       mTrack.Fly()
     }
   }
