@@ -60,6 +60,8 @@ projectonline(pos)
     pos.yaw=pos1.AimTo(pos).yaw;
     
     var angle=pos1.yaw-pos.yaw;
+    angle=angle*Math.PI/180.0;
+    
     dis = pos1.DistanceTo(pos);
 //返回  [里程，左右距]
     return [gGridArray[0][markk][0]+dis*Math.cos(angle),dis*Math.sin(angle)];
