@@ -34,10 +34,14 @@ class SKCommonTools {
   }
   // 用于自动找到文档打开时第一个方案ID,此方案ID应该赋给mCurCaseID作为全局变量存在
   FindFirstCaseID () {
-    let mRes = GetGroupFeaturesID('')
+    let mRes = this.GetGroupFeaturesID('')
     let mark = ''
-    for (const sid in mRes) {
-      mark = this.mSGWorld.ProjectTree.GetClientData(sid, '节点类型')
+    for (const sid of mRes) {
+      try{
+        mark = this.mSGWorld.ProjectTree.GetClientData(sid, '节点类型')
+      }catch(error){
+        console.log(error)
+      }
       if (mark ==='项目节点') {
        return sid
       }
@@ -52,16 +56,16 @@ class SKCommonTools {
   // <param name="ParentID"></param>
   // <returns></returns>
   FindObjectID(objName, ParentID) {
-      mIDs = [];
+      let mIDs = [];
       try{
           let ChildID = this.mSGWorld.ProjectTree.GetNextItem(ParentID, ItemCode.CHILD);
           while (true){
-              if (!ChildID || trim(ChildID)=="") break;
+              if (!ChildID || ChildID.trim()=="") break;
               if (this.mSGWorld.ProjectTree.GetItemName(ChildID) == objName){
                   mIDs.push(ChildID);
               }
               if (this.mSGWorld.ProjectTree.IsGroup(ChildID)){
-                  let mSubIDs = FindObjectID(objName, ChildID);
+                  let mSubIDs = this.FindObjectID(objName, ChildID);
                   if (mSubIDs.length > 0) mIDs.push(...mSubIDs);
               }
               ChildID = this.mSGWorld.ProjectTree.GetNextItem(ChildID, ItemCode.NEXT);
@@ -75,9 +79,10 @@ class SKCommonTools {
 
  //返回其中第一个
   FindFirstObjectID(objName, ParentID) {
-      let s = FindObjectID(objName, ParentID)
-      if (s.length > 0) return s[0]
-      return ""
+    debugger
+    let s = this.FindObjectID(objName, ParentID)
+    if (s.length > 0) return s[0]
+    return ""
   }
 
   //递归遍历查找ParentID节点下所有的节点名称含有objName的所有ID
@@ -85,7 +90,7 @@ class SKCommonTools {
     let mIDs = []
     let ChildID = this.mSGWorld.ProjectTree.GetNextItem(ParentID, ItemCode.CHILD)
     while (true) {
-      if (!ChildID ||  trim(ChildID) == "") break
+      if (!ChildID ||  ChildID.trim() == "") break
       if (this.mSGWorld.ProjectTree.GetItemName(ChildID).Contains(objName)) {
         mIDs.push(ChildID)
       }
@@ -97,7 +102,7 @@ class SKCommonTools {
   // 在ParentGroupId节点下查找GroupName目录，如果没有找到则创建该目录。
   FindAndCreateGroup ( ParentGroupId, GroupName, isLook = false) {
       let ChildID = this.mSGWorld.ProjectTree.GetNextItem(ParentGroupId, ItemCode.CHILD)
-      if (!ChildID || trim(ChildID) == ""){
+      if (!ChildID || ChildID.trim() == ""){
           return isLook ? this.mSGWorld.ProjectTree.CreateLockedGroup(GroupName, ParentGroupId) : this.mSGWorld.ProjectTree.CreateGroup(GroupName, ParentGroupId);
       }
       if (this.mSGWorld.ProjectTree.GetItemName(ChildID) == GroupName){
@@ -105,7 +110,7 @@ class SKCommonTools {
       }
       while (true){
           ChildID = this.mSGWorld.ProjectTree.GetNextItem(ChildID, ItemCode.NEXT);
-          if (!ChildID ||  trim(ChildID) == ""){ // 如果没找到节点则返回string.Empty；
+          if (!ChildID ||  ChildID.trim() == ""){ // 如果没找到节点则返回string.Empty；
               return isLook ? this.mSGWorld.ProjectTree.CreateLockedGroup(GroupName, ParentGroupId) : this.mSGWorld.ProjectTree.CreateGroup(GroupName, ParentGroupId);
           }
           if (this.mSGWorld.ProjectTree.GetItemName(ChildID) == GroupName){
@@ -120,12 +125,12 @@ class SKCommonTools {
   {
       let mRes = [];
       let ChildID = this.mSGWorld.ProjectTree.GetNextItem(ParentGroupId, ItemCode.CHILD);
-      if (!ChildID ||  ChildID == "") return mRes;
+      if (!ChildID ||  ChildID.trim() == "") return mRes;
       mRes.push(ChildID);
 
       while (true){
           ChildID = this.mSGWorld.ProjectTree.GetNextItem(ChildID, ItemCode.NEXT);
-          if (!ChildID ||  trim(ChildID) == "") return mRes;
+          if (!ChildID ||  ChildID.trim() == "") return mRes;
           mRes.push(ChildID);
       }
   }
@@ -136,13 +141,13 @@ class SKCommonTools {
   // <param name="GroupId"></param>
   ClearGroup(GroupId) {
       let ChildID = this.mSGWorld.ProjectTree.GetNextItem(GroupId, ItemCode.CHILD);
-      if (!ChildID ||  trim(ChildID)) return;
+      if (!ChildID ||  ChildID.trim()) return;
 
       let deleteIDs = [];
       deleteIDs.push(ChildID);
       while (true){
           ChildID = this.mSGWorld.ProjectTree.GetNextItem(ChildID, ItemCode.NEXT);
-          if (!ChildID ||  trim(ChildID)) break;
+          if (!ChildID ||  ChildID.trim()) break;
           deleteIDs.Add(ChildID);
       }
       let i = 0;

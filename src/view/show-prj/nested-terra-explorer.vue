@@ -64,6 +64,7 @@ export default {
       skTools:null,
       mCurCaseID: null,
       baselineID: null,
+      baselineobj: null,
       dmx: null
     }
   },
@@ -95,11 +96,13 @@ export default {
     },
     onLoadFinished (){
       this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal)
+      // let nn = this.dmx.GetXZQHByBL('22','114')
       this.mCurCaseID = this.skTools.FindFirstCaseID()
-      let baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
-      let baselineobj = this.sgworld.ProjectTree.GetObject(this.baselineID)
-      this.dmx = new DMXClass(this.sgWorld)
-      this.dmx.DMX_DrawBySetLC(baselineobj)
+      this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
+      debugger
+      this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
+      this.dmx.DMX_DrawBySetLC(this.baselineobj)
+
     }
   },
   watch: {
@@ -111,10 +114,12 @@ export default {
     },
     sgWorld: function(val){
       if (this.sgWorld) {
+        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld))
+        this.skTools = new SKCommonTools(this.sgWorld)
+        this.dmx = new DMXClass(this.sgWorld)
         this.sgWorld.AttachEvent('OnLoadFinished', this.onLoadFinished)
         this.sgWorld.Project.Open(this.projectURL)
-        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld))
-        this.skTools = new SKCommonTools(this.sgworld)
+
       }
     }
   },
