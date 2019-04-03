@@ -168,6 +168,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'viewVerticalSection',
+          mileage: true,
           title: '查看纵断面'
         }
       },
@@ -177,6 +178,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'extractCrossSection',
+          mileage: true,
           title: '提取横断面'
         },
         component: nullpage
@@ -187,6 +189,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'extractCrossSection',
+          mileage: true,
           title: '提取纵断面'
         },
         component: nullpage
@@ -196,6 +199,8 @@ export default [{
         name: 'checkProjectNumber',
         meta: {
           icon: 'md-funnel',
+          command: 'checkProjectNumber',
+          mileage: true,
           title: '查看工程数量'
         },
         component: nullpage
@@ -205,6 +210,8 @@ export default [{
         name: 'genAdministrativeDivisions',
         meta: {
           icon: 'md-funnel',
+          command: 'genAdministrativeDivisions',
+          mileage: true,
           title: '生成行政区划表'
         },
         component: nullpage
@@ -303,6 +310,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'analogCrossSectionMap',
+          mileage: true,
           title: '横剖面图'
         },
         component: nullpage
@@ -313,6 +321,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'analogTraffic',
+          mileage: true,
           title: '交通模拟'
         },
         component: nullpage
@@ -323,6 +332,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'analogflight',
+          mileage: true,
           title: '飞行鸟瞰'
         },
         component: nullpage
@@ -333,6 +343,7 @@ export default [{
         meta: {
           icon: 'md-funnel',
           command: 'analogProgress',
+          mileage: true,
           title: '进度模拟'
         },
         component: nullpage

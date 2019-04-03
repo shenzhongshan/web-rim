@@ -114,6 +114,14 @@ class SGWorldCommands {
       // mShow.Show();
     }
   }
+  // 查看工程数量
+  checkProjectNumber (){
+
+  }
+ // 生成行政区划表
+  genAdministrativeDivisions (){
+
+  }
 }
 
 export default SGWorldCommands
