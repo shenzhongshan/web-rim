@@ -32,6 +32,18 @@ class SKCommonTools {
   CreateColor(r, g, b, a = 255){
       return this.mSGWorld.Creator.CreateColor(r, g, b, a);
   }
+  // 用于自动找到文档打开时第一个方案ID,此方案ID应该赋给mCurCaseID作为全局变量存在
+  FindFirstCaseID () {
+    let mRes = GetGroupFeaturesID('')
+    let mark = ''
+    for (const sid in mRes) {
+      mark = this.mSGWorld.ProjectTree.GetClientData(sid, '节点类型')
+      if (mark ==='项目节点') {
+       return sid
+      }
+    }
+    return ''
+  }
 
   // <summary>
   // 递归遍历查找ParentID节点下所有的节点名称为objName的所有ID

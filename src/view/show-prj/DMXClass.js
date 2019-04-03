@@ -1,260 +1,346 @@
-//µØÃæÏßÀà£¬µØÃæÏß×îÖÕµÃµ½  gGridArray[0]  ¹ìÃæÏß£¬¹ìÃæÏß×îÖÕµÃµ½  gGridArray[1]
+// åœ°é¢çº¿ç±»ï¼Œåœ°é¢çº¿æœ€ç»ˆå¾—åˆ°  gGridArray[0]  è½¨é¢çº¿ï¼Œè½¨é¢çº¿æœ€ç»ˆå¾—åˆ°  gGridArray[1]
+import axios from '@/libs/api.request'
+/* eslint-disable */
+export default class DMXClass {
 
-var gMinAltitude=0; //È·¶¨YÖáÔ­×ø±ê
-var gPositionsArray = [];  //µØÃæÏßÉÏµãµÄÎ»ÖÃ
-var gStep = 50;  //È¡µã¼ä¾à
-var gGridArray = [];   //Ã¿ÌõÏßÉÏµãµÄÍø¸ñÖµ(lc,h)  gGridArray[0]´æ·ÅµÄ¾ÍÊÇµØÃæÏßµã[lc,eh]£¬gGridArray[1]´æ·ÅµÄ¹ìÃæÏßµã£¬gGridArray[2]´æ·ÅÊÇÆÂ¶ÈÏßµã£¬È«ÊÇ£¨Àï³Ì£¬¸ß³Ì£©µã¶ÔÔªËØ,Òò´ËÒªÊä³öµØÃæÏß£¬Ö»ĞèÒª½«gGridArray[0]Êä³ö³Écvs¸ñÊ½¼´¿É¡£
-var firstlc,endlc;
+  constructor (sgworld) {
+    this.SGWorld = sgworld
+    this.gMinAltitude = 0 // ç¡®å®šYè½´åŸåæ ‡
+    // this.mSKTools = new SKCommonTools(sgworld)
+    this.gPositionsArray = [] // åœ°é¢çº¿ä¸Šç‚¹çš„ä½ç½®
+    this.gStep = 50 // å–ç‚¹é—´è·
+    // æ¯æ¡çº¿ä¸Šç‚¹çš„ç½‘æ ¼å€¼(lc,h)
+    // gGridArray[0]å­˜æ”¾çš„å°±æ˜¯åœ°é¢çº¿ç‚¹[lc,eh]ï¼Œ
+    // gGridArray[1]å­˜æ”¾çš„è½¨é¢çº¿ç‚¹ï¼Œ
+    // gGridArray[2]å­˜æ”¾æ˜¯å¡åº¦çº¿ç‚¹ï¼Œå…¨æ˜¯ï¼ˆé‡Œç¨‹ï¼Œé«˜ç¨‹ï¼‰ç‚¹å¯¹å…ƒç´ ,å› æ­¤è¦è¾“å‡ºåœ°é¢çº¿ï¼Œåªéœ€è¦å°†gGridArray[0]è¾“å‡ºæˆcvsæ ¼å¼å³å¯ã€‚
+    this.gGridArray = []
+    this.firstlc = null
+    this.endlc = null
+  }
 
-//Í¨¹ı»ùÏß¶ÔÏóËù¹ØÁªµÄÃ¿¸ö¶¥µãµÄÀï³ÌÊôĞÔÀ´³õÊ¼»¯gGridArray[0],ºÃ´¦ÊÇÃ¿¸ö¶¥µãµÄÀï³ÌÓë¹¤³ÌÉÏµÄÀï³ÌÒ»ÖÂ¡£
-function DMX_DrawBySetLC(obj) 
-{
-    var lastCoord;
-    var currCoord;  
-    var SegmentLength;
-   
-    var tmpstep;
-    var lc0,lc1,lcstep;
-    var polylineGeometry=obj.Geometry;
-   
-    gPositionsArray = [];
-    gGridArray[0] = [];
-    gGridArray[1] = [];   
-     gMinAltitude =999999999;
+  // é€šè¿‡åŸºçº¿å¯¹è±¡æ‰€å…³è”çš„æ¯ä¸ªé¡¶ç‚¹çš„é‡Œç¨‹å±æ€§æ¥åˆå§‹åŒ–gGridArray[0],å¥½å¤„æ˜¯æ¯ä¸ªé¡¶ç‚¹çš„é‡Œç¨‹ä¸å·¥ç¨‹ä¸Šçš„é‡Œç¨‹ä¸€è‡´ã€‚
+  DMX_DrawBySetLC (obj) {
+    let lastCoord
+    let currCoord
+    let SegmentLength
 
-    
-        lc0=parseFloat(obj.ClientData("LC0"));
-	lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3);
-	AddDMXPoint(lastCoord,lc0,polylineGeometry.Points.Item(0).Z);
-	
-	 for (var i = 1; i < polylineGeometry.Points.count; i++) 
-	 {	        
-	        currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3);
-	        lc1=parseFloat(obj.ClientData("LC"+i));   //»ñÈ¡Ã¿¸ö¶¥µãµÄÀï³ÌÖµ
-	        
-	        lastCoord.yaw = lastCoord.AimTo(currCoord).yaw;
-	        SegmentLength = lastCoord.DistanceTo(currCoord);
-	        
-	         var count = Math.ceil(SegmentLength / gStep);	        
-	         tmpstep = SegmentLength / count;
-	         lcstep = (lc1-lc0)/count;
-	         for(var k = 1;k <count;k++)
-	         {
-	            lc0 += lcstep;
-	            lastCoord = lastCoord.MoveToward(currCoord, tmpstep);
-	            AddDMXPoint(lastCoord,lc0,-1);
-	         }
-	          AddDMXPoint(currCoord,lc1,polylineGeometry.Points.Item(i).Z);
-	         lastCoord=currCoord.copy();
-	         lc0=lc1;
-    	}
-    	endlc=lc1;
-    	
-    return true;
-}
+    let tmpstep
+    let lc0, lc1, lcstep
+    let polylineGeometry = obj.Geometry
 
-//Í¨¹ı»ùÏß¶ÔÏó¶¥µã¾àÀë×Ô¶¯¼ÆËãÀï³ÌÀ´³õÊ¼»¯gGridArray[0],ºÃ´¦¶ÔËùÓĞÏß¶¼ÊÊÓÃ¡£
-function DMX_DrawByDist(polylineGeometry,obj) 
-{
-    var lastCoord;
-    var currCoord;  
-    var SegmentLength;      
-    var lc0,lc1,lcstep;   
-   
-    gPositionsArray = [];
-    gGridArray[0] = [];
-    gGridArray[1] = [];   
-    gMinAltitude =999999999;
+    this.gPositionsArray = []
+    this.gGridArray[0] = []
+    this.gGridArray[1] = []
+    this.gMinAltitude = 999999999
 
-  
-        lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3);            
-        lc0=firstlc;
-	
-	AddDMXPoint(lastCoord,lc0,polylineGeometry.Points.Item(0).Z);
-	
-	 for (var i = 1; i < polylineGeometry.Points.count; i++) 
-	 {	        
-	        currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3);
-	        	        
-	        lastCoord.yaw = lastCoord.AimTo(currCoord).yaw;
-	        SegmentLength = lastCoord.DistanceTo(currCoord);  //may calc with Z value
-	        
-	        lc1=lc0+SegmentLength;	   
-	         var count = Math.ceil(SegmentLength / gStep);	
-	         lcstep = (lc1-lc0)/count;	         
-	         for(var k = 1;k < count;k++)
-	         {
-	            lc0 += lcstep;
-	            lastCoord = lastCoord.MoveToward(currCoord, lcstep);
-	            AddDMXPoint(lastCoord,lc0,-1);
-	         }	                 
-	              
-	         AddDMXPoint(currCoord,lc1,polylineGeometry.Points.Item(i).Z);
-	         lastCoord=currCoord.copy();
-	         lc0=lc1;
-    	}
+    lc0 = parseFloat(obj.ClientData('LC0'))
+    lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
+    AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
 
-   
-  
-    return true;
-}
+    for (var i = 1; i < polylineGeometry.Points.count; i++) {
+      currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
+      lc1 = parseFloat(obj.ClientData('LC' + i)) // è·å–æ¯ä¸ªé¡¶ç‚¹çš„é‡Œç¨‹å€¼
 
+      lastCoord.yaw = lastCoord.AimTo(currCoord).yaw
+      SegmentLength = lastCoord.DistanceTo(currCoord)
 
-//-------------
-// AddDMXPoint  0
-function AddDMXPoint(pos,lc,th) {
-    var position1 = pos.ToAbsolute(0);  
-    var Altitude = SGWorld.Terrain.GetGroundHeightInfo(position1.X, position1.Y, 2, true).Position.Altitude;
-        position1.Altitude = Altitude;
-    
-    if (Altitude < gMinAltitude) gMinAltitude = Altitude;
-    
-    gPositionsArray.push(position1);
-    gGridArray[0].push([lc, Altitude]); 
-   if(th>0) gGridArray[1].push([lc, th]);     
-}
-
-
-function DMX_GetGeolayer()
-{
-    var len=gGridArray[0].length;
-	 var th,lc;
-	  
-	  
-	 gGridArray[3]=[];	 
-	 for(var i=0;i<len;i++)
-	    {
-	        lc=gGridArray[0][i][0];
-	        th=gGridArray[0][i][1]-10-3*Math.random();	        
-	        gGridArray[3][i]=[lc,th];
-	    }	    
-	
-	
-	gGridArray[4]=[];
-	 for(var i=0;i<len;i++)
-	    {
-	         lc=gGridArray[0][i][0];
-	        th=gGridArray[3][i][1]-20-5*Math.random();	        
-	        gGridArray[4][i]=[lc,th];
-	    }
-	    	
-	 gGridArray[5]=[];
-	 for(var i=0;i<len;i++)
-	    {
-	        lc=gGridArray[0][i][0];
-	        th=gGridArray[4][i][1]-40-8*Math.random();	        
-	        gGridArray[5][i]=[lc,th];
-	    }	    
-	 
-	 gGridArray[6]=[];
-	 for(var i=0;i<len;i++)
-	    {
-	        lc=gGridArray[0][i][0];
-	        th=gGridArray[5][i][1]-80-15*Math.random();	        
-	        gGridArray[6][i]=[lc,th];
-	    }	    
-	   
-}
-
-//»ñÈ¡ÈÎºÎÀï³ÌµÄµØÃæ¸ß³Ì
-function DMX_getlcElev(lc)
-{
-    var len=gGridArray[0].length;
-	
-   for(var i=1;i<len;i++)
-   {
-      if(lc>=gGridArray[0][i-1][0] && lc<=gGridArray[0][i][0])
-      {
-         return gGridArray[0][i-1][1]+(gGridArray[0][i][1]-gGridArray[0][i-1][1])*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);
+      var count = Math.ceil(SegmentLength / gStep)
+      tmpstep = SegmentLength / count
+      lcstep = (lc1 - lc0) / count
+      for (var k = 1; k < count; k++) {
+        lc0 += lcstep
+        lastCoord = lastCoord.MoveToward(currCoord, tmpstep)
+        AddDMXPoint(lastCoord, lc0, -1)
       }
-   }
-}
+      AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
+      lastCoord = currCoord.copy()
+      lc0 = lc1
+    }
+    endlc = lc1
 
-//»ñÈ¡ÈÎºÎÀï³ÌµÄ¹ìÃæ¸ß³Ì
-function DMX_getTrackH(lc)
-{
-    var len=gGridArray[1].length;
-	
-   for(var i=1;i<len;i++)
-   {
-      if(lc>=gGridArray[1][i-1][0] && lc<=gGridArray[1][i][0])
-      {
-         return gGridArray[1][i-1][1]+(gGridArray[1][i][1]-gGridArray[1][i-1][1])*(lc-gGridArray[1][i-1][0])/(gGridArray[1][i][0]-gGridArray[1][i-1][0]);
+    return true
+  }
+
+  // é€šè¿‡åŸºçº¿å¯¹è±¡é¡¶ç‚¹è·ç¦»è‡ªåŠ¨è®¡ç®—é‡Œç¨‹æ¥åˆå§‹åŒ–gGridArray[0],å¥½å¤„å¯¹æ‰€æœ‰çº¿éƒ½é€‚ç”¨ã€‚
+  DMX_DrawByDist (polylineGeometry, obj) {
+    let lastCoord
+    let currCoord
+    let SegmentLength
+    let lc0, lc1, lcstep
+
+    gPositionsArray = []
+    gGridArray[0] = []
+    gGridArray[1] = []
+    gMinAltitude = 999999999
+    lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
+    lc0 = firstlc
+
+    AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
+
+    for (var i = 1; i < polylineGeometry.Points.count; i++) {
+      currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
+
+      lastCoord.yaw = lastCoord.AimTo(currCoord).yaw
+      SegmentLength = lastCoord.DistanceTo(currCoord) // may calc with Z value
+
+      lc1 = lc0 + SegmentLength
+      var count = Math.ceil(SegmentLength / gStep)
+      lcstep = (lc1 - lc0) / count
+      for (var k = 1; k < count; k++) {
+        lc0 += lcstep
+        lastCoord = lastCoord.MoveToward(currCoord, lcstep)
+        AddDMXPoint(lastCoord, lc0, -1)
       }
-   }
-}
 
-//Ìø×ªµ½ÈÎÒâÀï³Ì
-function DMX_JumpToLC(lc)
-{      	
-	//alert(lc);
-	if(!isFollow) return; 
-	if (lc<firstlc) return;
-	if (lc>endlc) return;
-	
-	var len=gGridArray[0].length;	
-	var x,y,h;
-	var pos;
-	
-   for(var i=1;i<=len;i++)
-   {
-      if(lc>=gGridArray[0][i-1][0] && lc<=gGridArray[0][i][0])
-      {
-         h = gGridArray[0][i-1][1]+(gGridArray[0][i][1]-gGridArray[0][i-1][1])*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);         
-         x = gPositionsArray[i-1].X+(gPositionsArray[i].X-gPositionsArray[i-1].X)*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);
-         y = gPositionsArray[i-1].Y+(gPositionsArray[i].Y-gPositionsArray[i-1].Y)*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);
-         pos = SGWorld.Creator.CreatePosition(x, y, h+100, 3);
-         pos.pitch=-90;
-         SGWorld.Navigate.JumpTo(pos);
-         return;
+      AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
+      lastCoord = currCoord.copy()
+      lc0 = lc1
+    }
+    return true
+  }
+
+  // -------------
+  // AddDMXPoint  0
+  AddDMXPoint (pos, lc, th) {
+    var position1 = pos.ToAbsolute(0)
+    var Altitude = SGWorld.Terrain.GetGroundHeightInfo(position1.X, position1.Y, 2, true).Position.Altitude
+    position1.Altitude = Altitude
+
+    if (Altitude < gMinAltitude) gMinAltitude = Altitude
+
+    gPositionsArray.push(position1)
+    gGridArray[0].push([lc, Altitude])
+    if (th > 0) gGridArray[1].push([lc, th])
+  }
+
+  DMX_GetGeolayer () {
+    var len = gGridArray[0].length
+    var th, lc
+
+    gGridArray[3] = []
+    for (let i = 0; i < len; i++) {
+      lc = gGridArray[0][i][0]
+      th = gGridArray[0][i][1] - 10 - 3 * Math.random()
+      gGridArray[3][i] = [lc, th]
+    }
+
+    gGridArray[4] = []
+    for (let i = 0; i < len; i++) {
+      lc = gGridArray[0][i][0]
+      th = gGridArray[3][i][1] - 20 - 5 * Math.random()
+      gGridArray[4][i] = [lc, th]
+    }
+
+    gGridArray[5] = []
+    for (let i = 0; i < len; i++) {
+      lc = gGridArray[0][i][0]
+      th = gGridArray[4][i][1] - 40 - 8 * Math.random()
+      gGridArray[5][i] = [lc, th]
+    }
+
+    gGridArray[6] = []
+    for (let i = 0; i < len; i++) {
+      lc = gGridArray[0][i][0]
+      th = gGridArray[5][i][1] - 80 - 15 * Math.random()
+      gGridArray[6][i] = [lc, th]
+    }
+  }
+
+  // è·å–ä»»ä½•é‡Œç¨‹çš„åœ°é¢é«˜ç¨‹
+  DMX_getlcElev (lc) {
+    var len = gGridArray[0].length
+
+    for (var i = 1; i < len; i++) {
+      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
+        return gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
       }
-   }   
-}
+    }
+  }
 
-//»ñÈ¡ÈÎµ¥Àï³ÌµÄ×ø±ê
-function GetPosByLc(lc)
-{
-	if (lc<firstlc) return null;
-	if (lc>endlc) return null;
-	
-	var len=gGridArray[0].length;	
-	var x,y,h;
-	var pos;
-	
-   for(var i=1;i<=len;i++)
-   {
-      if(lc>=gGridArray[0][i-1][0] && lc<=gGridArray[0][i][0])
-      {
-         h = gGridArray[0][i-1][1]+(gGridArray[0][i][1]-gGridArray[0][i-1][1])*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);         
-         x = gPositionsArray[i-1].X+(gPositionsArray[i].X-gPositionsArray[i-1].X)*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);
-         y = gPositionsArray[i-1].Y+(gPositionsArray[i].Y-gPositionsArray[i-1].Y)*(lc-gGridArray[0][i-1][0])/(gGridArray[0][i][0]-gGridArray[0][i-1][0]);
-         pos = SGWorld.Creator.CreatePosition(x, y, h, 3);        
-         return pos;
+  // è·å–ä»»ä½•é‡Œç¨‹çš„è½¨é¢é«˜ç¨‹
+  DMX_getTrackH (lc) {
+    var len = gGridArray[1].length
+
+    for (var i = 1; i < len; i++) {
+      if (lc >= gGridArray[1][i - 1][0] && lc <= gGridArray[1][i][0]) {
+        return gGridArray[1][i - 1][1] + (gGridArray[1][i][1] - gGridArray[1][i - 1][1]) * (lc - gGridArray[1][i - 1][0]) / (gGridArray[1][i][0] - gGridArray[1][i - 1][0])
       }
-   }   
-   return null;
-}
+    }
+  }
 
-//-------------
-// Ìø×ªÖÁÈÎÒâ¸ø¶¨µØÃæÏßµãË÷ÒıµÄµãÎ»ÖÃ
-function DMX_JumpToPoint(Point)
-{      
-    var nextPoint;
-    var nextSign;
+  // è·³è½¬åˆ°ä»»æ„é‡Œç¨‹
+  DMX_JumpToLC (lc) {
+    // alert(lc)
+    if (!isFollow) return
+    if (lc < firstlc) return
+    if (lc > endlc) return
+
+    var len = gGridArray[0].length
+    var x, y, h
+    var pos
+
+    for (var i = 1; i <= len; i++) {
+      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
+        h = gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        pos = SGWorld.Creator.CreatePosition(x, y, h + 100, 3)
+        pos.pitch = -90
+        SGWorld.Navigate.JumpTo(pos)
+        return
+      }
+    }
+  }
+
+  // è·å–ä»»å•é‡Œç¨‹çš„åæ ‡
+  GetPosByLc (lc) {
+    if (lc < firstlc) return null
+    if (lc > endlc) return null
+
+    var len = gGridArray[0].length
+    var x, y, h
+    var pos
+
+    for (var i = 1; i <= len; i++) {
+      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
+        h = gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+        pos = SGWorld.Creator.CreatePosition(x, y, h, 3)
+        return pos
+      }
+    }
+    return null
+  }
+
+  // -------------
+  // è·³è½¬è‡³ä»»æ„ç»™å®šåœ°é¢çº¿ç‚¹ç´¢å¼•çš„ç‚¹ä½ç½®
+  DMX_JumpToPoint (Point) {
+    var nextPoint
+    var nextSign
     if (Point >= gPositionsArray.length) {
-        nextPoint = gPositionsArray[Point - 1].Copy();
-        nextSign = 1;
-    }
-    else {
-        nextPoint = gPositionsArray[Point + 1].Copy();
-        nextSign = -1;
+      nextPoint = gPositionsArray[Point - 1].Copy()
+      nextSign = 1
+    } else {
+      nextPoint = gPositionsArray[Point + 1].Copy()
+      nextSign = -1
     }
 
-    var jumpPos = gPositionsArray[Point].Copy();
-    var tmpPos = gPositionsArray[Point].Copy();
-    jumpPos.Distance = 250;
-    jumpPos.Pitch = -60;
-    jumpPos.Yaw = tmpPos.AimTo(nextPoint).Yaw + 90*nextSign;
+    var jumpPos = gPositionsArray[Point].Copy()
+    var tmpPos = gPositionsArray[Point].Copy()
+    jumpPos.Distance = 250
+    jumpPos.Pitch = -60
+    jumpPos.Yaw = tmpPos.AimTo(nextPoint).Yaw + 90 * nextSign
 
-    SGWorld.Navigate.JumpTo(jumpPos);
+    SGWorld.Navigate.JumpTo(jumpPos)
+  }
+
+// é‡Œç¨‹ç³»ä¸åæ ‡ç³»æ­£åç®—ä¸¤ä¸ªæ ¸å¿ƒçš„å‡½æ•°å®ç°
+// æ ¹æ®çº¿è·¯é‡Œç¨‹è®¡ç®—è¿”å›åæ ‡ç‚¹ä¸è½¨é¢é«˜,æœ‰æ–¹ä½è§’
+GetBLPoint (lc) {
+  if (lc < firstlc) return null
+  if (lc > endlc) return null
+
+  var len = gGridArray[0].length
+  var x, y, h
+  var pos
+
+  for (var i = 1; i <= len; i++) {
+    if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
+      h = gGridArray[1][i - 1][1] + (gGridArray[1][i][1] - gGridArray[1][i - 1][1]) * (lc - gGridArray[1][i - 1][0]) / (gGridArray[1][i][0] - gGridArray[1][i - 1][0])
+      x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+      y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+      pos = SGWorld.Creator.CreatePosition(x, y, h, 3)
+      pos.yaw = gPositionsArray[i - 1].AimTo(gPositionsArray[i]).yaw
+      return pos
+    }
+  }
+  return null
+}
+
+// å°†ä¸€ä¸ªç‚¹æŠ•å½±åˆ°çº¿ä½ä¸Šè¿”å›é‡Œç¨‹ã€é‡Œç¨‹ï¼Œå·¦å³è·ã€‘
+projectonline (pos) {
+  let len = gPositionsArray.length
+  let dis
+  let markdis = 9e10
+  var markk = 0
+
+  for (var i = 1; i < len; i++) {
+    dis = gPositionsArray[i].DistanceTo(pos)
+    if (dis < markdis) {
+      dis = markdis
+      markk = i
+    } else break // å¤§åŠå¾„çº¿è·¯é€‚ç”¨
+  }
+
+  var pos1, pos2 // æ‰¾å‡ºä¸¤æœ€ä¸´è¿‘ç‚¹
+  if (gPositionsArray[markk - 1].DistanceTo(pos) < gPositionsArray[markk + 1].DistanceTo(pos)) {
+    pos1 = gPositionsArray[markk - 1]
+    pos2 = gPositionsArray[markk]
+    markk = markk - 1
+  } else {
+    pos1 = gPositionsArray[markk]
+    pos2 = gPositionsArray[markk + 1]
+  }
+
+  pos1.yaw = pos1.AimTo(pos2).yaw
+  pos.yaw = pos1.AimTo(pos).yaw
+
+  var angle = pos1.yaw - pos.yaw
+  angle = angle * Math.PI / 180.0
+
+  dis = pos1.DistanceTo(pos)
+  // è¿”å›  [é‡Œç¨‹ï¼Œå·¦å³è·]
+  return [gGridArray[0][markk][0] + dis * Math.cos(angle), dis * Math.sin(angle)]
+}
+
+// ä¸‹é¢æ˜¯æ‹“å±•å‡½æ•°
+
+// æ ¹æ®çº¿è·¯é‡Œç¨‹ã€å·¦å³è·è®¡ç®—è¿”å›åæ ‡ç‚¹ä¸è½¨é¢é«˜
+GetBLPointByLc (lc, offset = 0) {
+  var pos = GetBLPoint(lc)
+  if (pos == null) return null
+  pos.yaw = +90 // æ—‹è½¬90åº¦
+  return pos.move(offset, 0, 0) // è¦æµ‹è¯•ï¼Œå¦‚æœå·¦å³ä¾§åäº†ï¼Œåˆ™pos.move(-offset,0,0)
+}
+
+// wx,wyä¸ºå±å¹•çª—å£åæ ‡
+GetBLPointByWxy (wx, wy) {
+  // IWorldPointInfo70 mloc = StaticCommon.mSGWorld.Window.PixelToWorld(wx, wy, WorldPointType.WPT_TERRAIN)
+  let mloc = mSGWorld.Window.PixelToWorld(wx, wy, 0)
+  let lcoff = projectonline(mloc.Position)
+
+  let offset = lcoff[1]
+
+  return [GetBLPoint(lcoff[0]), offset]
+}
+
+// æ ¹æ®é‡Œç¨‹å¾—åˆ°è¡Œæ”¿åŒºåˆ’åç§°
+GetXZQH(lc) {
+  let lp = GetBLPointByLc(lc)
+  return GetXZQHByBL(lp.YL.ToString(), lp.XB.ToString())
+}
+
+GetXZQHByBL (lng, lat) {
+  let sxzh = ''
+  axios.request({
+    url: 'http://api.map.baidu.com/geocoder/v2/',
+    method: 'get',
+    data: {
+      ak: '45Xv0NtLzjOGbLvR5yxvdyCtOGFHTNyu',
+      location: lat + ',' + lng,
+      output: 'json',
+      pois: 1
+    }
+  }).then(res => {
+    const data = res.data
+    if (data.status === 0) {
+      const ac = data.result.addressComponent
+      sxzh = ac.province + '|' + ac.city + '|' + ac.town
+    }
+  }).catch(error => {
+    console.log(error)
+  })
+  return sxzh
+}
 }

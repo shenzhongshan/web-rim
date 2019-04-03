@@ -711,7 +711,6 @@ export default {
   },
   data() {
     return {
-      sgWorld: null
     };
   },
   computed: {},

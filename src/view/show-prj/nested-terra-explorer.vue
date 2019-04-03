@@ -41,6 +41,8 @@
 /* eslint-disable */
 import ControlPanel from './control-panel-te.vue'
 import SGWorldCommands from './sgWorld-commands'
+import SKCommonTools from './SKCommonTools.js'
+import DMXClass from './DMXClass.js'
 import { mapMutations } from 'vuex'
 export default {
   name: 'TerraExplorer',
@@ -55,10 +57,14 @@ export default {
   },
   data () {
     return {
-      sgWorld: null,
       showWindowBDrawer: false,
       placement: 'right',
-      draggable: false
+      draggable: false,
+      sgWorld: null,
+      skTools:null,
+      mCurCaseID: null,
+      baselineID: null,
+      dmx: null
     }
   },
   computed: {
@@ -86,6 +92,14 @@ export default {
           this.sgWorld = this.$refs.TE3DExternal.CreateInstance('TerraExplorerX.SGWorld70')
         }
       },5000)
+    },
+    onLoadFinished (){
+      this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal)
+      this.mCurCaseID = this.skTools.FindFirstCaseID()
+      let baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
+      let baselineobj = this.sgworld.ProjectTree.GetObject(this.baselineID)
+      this.dmx = new DMXClass(this.sgWorld)
+      this.dmx.DMX_DrawBySetLC(baselineobj)
     }
   },
   watch: {
@@ -97,9 +111,10 @@ export default {
     },
     sgWorld: function(val){
       if (this.sgWorld) {
-        this.sgWorld.AttachEvent('OnLoadFinished', () => this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal))
+        this.sgWorld.AttachEvent('OnLoadFinished', this.onLoadFinished)
         this.sgWorld.Project.Open(this.projectURL)
         this.setSGWorldCommand(new SGWorldCommands(this.sgWorld))
+        this.skTools = new SKCommonTools(this.sgworld)
       }
     }
   },
