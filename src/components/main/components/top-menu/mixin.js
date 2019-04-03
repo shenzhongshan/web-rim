@@ -7,12 +7,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sgWorldCanUse'
+      'sgWorldCanUse',
+      'mileageCanUse'
     ])
   },
   methods: {
     needDisabled (item) {
-      return Boolean(!this.sgWorldCanUse && (item.meta && item.meta.command))
+      return Boolean(!this.sgWorldCanUse &&
+            (item.meta && item.meta.command)) ||
+            Boolean(item.meta && item.meta.mileage && !this.mileageCanUse)
     },
     showTitle (item) {
       return showTitle(item, this)

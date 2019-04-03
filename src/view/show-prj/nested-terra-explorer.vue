@@ -73,7 +73,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setSGWorldCommand'
+      'setSGWorldCommand',
+      'setMileageReady'
     ]),
     dockDrawer (event) {
       console.log(event)
@@ -100,9 +101,17 @@ export default {
       this.mCurCaseID = this.skTools.FindFirstCaseID()
       this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
       debugger
-      this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
-      this.dmx.DMX_DrawBySetLC(this.baselineobj)
-
+      try{
+        this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
+      }catch(error){
+        console.log(error)
+      }
+      if(this.baselineobj){
+        this.dmx.DMX_DrawBySetLC(this.baselineobj)
+        this.setMileageReady(true)
+      }else{
+        this.setMileageReady(false)
+      }
     }
   },
   watch: {
