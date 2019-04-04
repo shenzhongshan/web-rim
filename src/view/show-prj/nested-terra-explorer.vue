@@ -97,10 +97,9 @@ export default {
     },
     onLoadFinished (){
       this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal)
-      // let nn = this.dmx.GetXZQHByBL('22','114')
       this.mCurCaseID = this.skTools.FindFirstCaseID()
       this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
-      debugger
+
       try{
         this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
       }catch(error){
@@ -125,7 +124,7 @@ export default {
       if (this.sgWorld) {
         this.setSGWorldCommand(new SGWorldCommands(this.sgWorld))
         this.skTools = new SKCommonTools(this.sgWorld)
-        this.dmx = new DMXClass(this.sgWorld)
+        this.dmx = new DMXClass(this.sgWorld, this)
         this.sgWorld.AttachEvent('OnLoadFinished', this.onLoadFinished)
         this.sgWorld.Project.Open(this.projectURL)
 

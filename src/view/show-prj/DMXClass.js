@@ -1,9 +1,9 @@
 // 地面线类，地面线最终得到  gGridArray[0]  轨面线，轨面线最终得到  gGridArray[1]
-import axios from '@/libs/api.request'
+// import axios from '@/libs/api.request'
 /* eslint-disable */
 export default class DMXClass {
 
-  constructor (sgworld) {
+  constructor (sgworld, vuecmp) {
     this.SGWorld = sgworld
     this.gMinAltitude = 0 // 确定Y轴原坐标
     // this.mSKTools = new SKCommonTools(sgworld)
@@ -16,6 +16,7 @@ export default class DMXClass {
     this.gGridArray = []
     this.firstlc = null
     this.endlc = null
+    this.vuecmp = vuecmp
   }
 
   // 通过基线对象所关联的每个顶点的里程属性来初始化gGridArray[0],好处是每个顶点的里程与工程上的里程一致。
@@ -321,22 +322,18 @@ GetXZQH(lc) {
   return GetXZQHByBL(lp.YL.ToString(), lp.XB.ToString())
 }
 
-GetXZQHByBL (lng, lat) {
-  let sxzh = ''
-  axios.request({
-    url: 'http://api.map.baidu.com/geocoder/v2/',
-    method: 'get',
-    data: {
-      ak: '45Xv0NtLzjOGbLvR5yxvdyCtOGFHTNyu',
-      location: lat + ',' + lng,
-      output: 'json',
-      pois: 1
-    }
+async GetXZQHByBL (lng, lat) {
+  var sxzh = ''
+  await this.vuecmp.$jsonp('http://api.map.baidu.com/geocoder/v2/',{
+    ak: '45Xv0NtLzjOGbLvR5yxvdyCtOGFHTNyu',
+    location: lat + ',' + lng,
+    output: 'json',
+    pois: 1
   }).then(res => {
-    const data = res.data
+    const data = res
     if (data.status === 0) {
       const ac = data.result.addressComponent
-      sxzh = ac.province + '|' + ac.city + '|' + ac.town
+       sxzh =  ac.province + '|' + ac.city + '|' + ac.district + '|' + ac.town
     }
   }).catch(error => {
     console.log(error)

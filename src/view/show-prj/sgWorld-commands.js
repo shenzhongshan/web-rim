@@ -116,11 +116,15 @@ class SGWorldCommands {
   }
   // 查看工程数量
   checkProjectNumber (){
-
+    if (this.sgWorld) {
+      alert('todo')
+    }
   }
  // 生成行政区划表
   genAdministrativeDivisions (){
-
+    if (this.sgWorld) {
+      alert('todo')
+    }
   }
 }
 
