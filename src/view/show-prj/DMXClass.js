@@ -35,65 +35,65 @@ export default class DMXClass {
     this.gMinAltitude = 999999999
 
     lc0 = parseFloat(obj.ClientData('LC0'))
-    lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
-    AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
+    lastCoord = this.SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
+    this.AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
 
     for (var i = 1; i < polylineGeometry.Points.count; i++) {
-      currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
+      currCoord = this.SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
       lc1 = parseFloat(obj.ClientData('LC' + i)) // 获取每个顶点的里程值
 
       lastCoord.yaw = lastCoord.AimTo(currCoord).yaw
       SegmentLength = lastCoord.DistanceTo(currCoord)
 
-      var count = Math.ceil(SegmentLength / gStep)
+      var count = Math.ceil(SegmentLength / this.gStep)
       tmpstep = SegmentLength / count
       lcstep = (lc1 - lc0) / count
       for (var k = 1; k < count; k++) {
         lc0 += lcstep
         lastCoord = lastCoord.MoveToward(currCoord, tmpstep)
-        AddDMXPoint(lastCoord, lc0, -1)
+        this.AddDMXPoint(lastCoord, lc0, -1)
       }
-      AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
+      this.AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
       lastCoord = currCoord.copy()
       lc0 = lc1
     }
-    endlc = lc1
+    this.endlc = lc1
 
     return true
   }
 
-  // 通过基线对象顶点距离自动计算里程来初始化gGridArray[0],好处对所有线都适用。
+  // 通过基线对象顶点距离自动计算里程来初始化this.gGridArray[0],好处对所有线都适用。
   DMX_DrawByDist (polylineGeometry, obj) {
     let lastCoord
     let currCoord
     let SegmentLength
     let lc0, lc1, lcstep
 
-    gPositionsArray = []
-    gGridArray[0] = []
-    gGridArray[1] = []
-    gMinAltitude = 999999999
-    lastCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
-    lc0 = firstlc
+    this.gPositionsArray = []
+    this.gGridArray[0] = []
+    this.gGridArray[1] = []
+    this.gMinAltitude = 999999999
+    lastCoord = this.SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(0).X, polylineGeometry.Points.Item(0).Y, 0, 3)
+    lc0 = this.firstlc
 
-    AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
+    this.AddDMXPoint(lastCoord, lc0, polylineGeometry.Points.Item(0).Z)
 
     for (var i = 1; i < polylineGeometry.Points.count; i++) {
-      currCoord = SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
+      currCoord = this.SGWorld.Creator.CreatePosition(polylineGeometry.Points.Item(i).X, polylineGeometry.Points.Item(i).Y, 0, 3)
 
       lastCoord.yaw = lastCoord.AimTo(currCoord).yaw
       SegmentLength = lastCoord.DistanceTo(currCoord) // may calc with Z value
 
       lc1 = lc0 + SegmentLength
-      var count = Math.ceil(SegmentLength / gStep)
+      var count = Math.ceil(SegmentLength / this.gStep)
       lcstep = (lc1 - lc0) / count
       for (var k = 1; k < count; k++) {
         lc0 += lcstep
         lastCoord = lastCoord.MoveToward(currCoord, lcstep)
-        AddDMXPoint(lastCoord, lc0, -1)
+        this.AddDMXPoint(lastCoord, lc0, -1)
       }
 
-      AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
+      this.AddDMXPoint(currCoord, lc1, polylineGeometry.Points.Item(i).Z)
       lastCoord = currCoord.copy()
       lc0 = lc1
     }
@@ -104,67 +104,67 @@ export default class DMXClass {
   // AddDMXPoint  0
   AddDMXPoint (pos, lc, th) {
     var position1 = pos.ToAbsolute(0)
-    var Altitude = SGWorld.Terrain.GetGroundHeightInfo(position1.X, position1.Y, 2, true).Position.Altitude
+    var Altitude = this.SGWorld.Terrain.GetGroundHeightInfo(position1.X, position1.Y, 2, true).Position.Altitude
     position1.Altitude = Altitude
 
-    if (Altitude < gMinAltitude) gMinAltitude = Altitude
+    if (Altitude < this.gMinAltitude) this.gMinAltitude = Altitude
 
-    gPositionsArray.push(position1)
-    gGridArray[0].push([lc, Altitude])
-    if (th > 0) gGridArray[1].push([lc, th])
+    this.gPositionsArray.push(position1)
+    this.gGridArray[0].push([lc, Altitude])
+    if (th > 0) this.gGridArray[1].push([lc, th])
   }
 
   DMX_GetGeolayer () {
-    var len = gGridArray[0].length
+    var len = this.gGridArray[0].length
     var th, lc
 
-    gGridArray[3] = []
+    this.gGridArray[3] = []
     for (let i = 0; i < len; i++) {
-      lc = gGridArray[0][i][0]
-      th = gGridArray[0][i][1] - 10 - 3 * Math.random()
-      gGridArray[3][i] = [lc, th]
+      lc = this.gGridArray[0][i][0]
+      th = this.gGridArray[0][i][1] - 10 - 3 * Math.random()
+      this.gGridArray[3][i] = [lc, th]
     }
 
-    gGridArray[4] = []
+    this.gGridArray[4] = []
     for (let i = 0; i < len; i++) {
-      lc = gGridArray[0][i][0]
-      th = gGridArray[3][i][1] - 20 - 5 * Math.random()
-      gGridArray[4][i] = [lc, th]
+      lc = this.gGridArray[0][i][0]
+      th = this.gGridArray[3][i][1] - 20 - 5 * Math.random()
+      this.gGridArray[4][i] = [lc, th]
     }
 
-    gGridArray[5] = []
+    this.gGridArray[5] = []
     for (let i = 0; i < len; i++) {
-      lc = gGridArray[0][i][0]
-      th = gGridArray[4][i][1] - 40 - 8 * Math.random()
-      gGridArray[5][i] = [lc, th]
+      lc = this.gGridArray[0][i][0]
+      th = this.gGridArray[4][i][1] - 40 - 8 * Math.random()
+      this.gGridArray[5][i] = [lc, th]
     }
 
-    gGridArray[6] = []
+    this.gGridArray[6] = []
     for (let i = 0; i < len; i++) {
-      lc = gGridArray[0][i][0]
-      th = gGridArray[5][i][1] - 80 - 15 * Math.random()
-      gGridArray[6][i] = [lc, th]
+      lc = this.gGridArray[0][i][0]
+      th = this.gGridArray[5][i][1] - 80 - 15 * Math.random()
+      this.gGridArray[6][i] = [lc, th]
     }
   }
 
   // 获取任何里程的地面高程
   DMX_getlcElev (lc) {
-    var len = gGridArray[0].length
+    var len = this.gGridArray[0].length
 
     for (var i = 1; i < len; i++) {
-      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
-        return gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
+      if (lc >= this.gGridArray[0][i - 1][0] && lc <= this.gGridArray[0][i][0]) {
+        return this.gGridArray[0][i - 1][1] + (this.gGridArray[0][i][1] - this.gGridArray[0][i - 1][1]) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
       }
     }
   }
 
   // 获取任何里程的轨面高程
   DMX_getTrackH (lc) {
-    var len = gGridArray[1].length
+    var len = this.gGridArray[1].length
 
     for (var i = 1; i < len; i++) {
-      if (lc >= gGridArray[1][i - 1][0] && lc <= gGridArray[1][i][0]) {
-        return gGridArray[1][i - 1][1] + (gGridArray[1][i][1] - gGridArray[1][i - 1][1]) * (lc - gGridArray[1][i - 1][0]) / (gGridArray[1][i][0] - gGridArray[1][i - 1][0])
+      if (lc >= this.gGridArray[1][i - 1][0] && lc <= this.gGridArray[1][i][0]) {
+        return this.gGridArray[1][i - 1][1] + (this.gGridArray[1][i][1] - this.gGridArray[1][i - 1][1]) * (lc - this.gGridArray[1][i - 1][0]) / (this.gGridArray[1][i][0] - this.gGridArray[1][i - 1][0])
       }
     }
   }
@@ -173,21 +173,21 @@ export default class DMXClass {
   DMX_JumpToLC (lc) {
     // alert(lc)
     if (!isFollow) return
-    if (lc < firstlc) return
-    if (lc > endlc) return
+    if (lc < this.firstlc) return
+    if (lc > this.endlc) return
 
-    var len = gGridArray[0].length
+    var len = this.gGridArray[0].length
     var x, y, h
     var pos
 
     for (var i = 1; i <= len; i++) {
-      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
-        h = gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        pos = SGWorld.Creator.CreatePosition(x, y, h + 100, 3)
+      if (lc >= this.gGridArray[0][i - 1][0] && lc <= this.gGridArray[0][i][0]) {
+        h = this.gGridArray[0][i - 1][1] + (this.gGridArray[0][i][1] - this.gGridArray[0][i - 1][1]) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        x = this.gPositionsArray[i - 1].X + (this.gPositionsArray[i].X - this.gPositionsArray[i - 1].X) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        y = this.gPositionsArray[i - 1].Y + (this.gPositionsArray[i].Y - this.gPositionsArray[i - 1].Y) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        pos = this.SGWorld.Creator.CreatePosition(x, y, h + 100, 3)
         pos.pitch = -90
-        SGWorld.Navigate.JumpTo(pos)
+        this.SGWorld.Navigate.JumpTo(pos)
         return
       }
     }
@@ -195,19 +195,19 @@ export default class DMXClass {
 
   // 获取任单里程的坐标
   GetPosByLc (lc) {
-    if (lc < firstlc) return null
-    if (lc > endlc) return null
+    if (lc < this.firstlc) return null
+    if (lc > this.endlc) return null
 
-    var len = gGridArray[0].length
+    var len = this.gGridArray[0].length
     var x, y, h
     var pos
 
     for (var i = 1; i <= len; i++) {
-      if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
-        h = gGridArray[0][i - 1][1] + (gGridArray[0][i][1] - gGridArray[0][i - 1][1]) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-        pos = SGWorld.Creator.CreatePosition(x, y, h, 3)
+      if (lc >= this.gGridArray[0][i - 1][0] && lc <= this.gGridArray[0][i][0]) {
+        h = this.gGridArray[0][i - 1][1] + (this.gGridArray[0][i][1] - this.gGridArray[0][i - 1][1]) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        x = this.gPositionsArray[i - 1].X + (this.gPositionsArray[i].X - this.gPositionsArray[i - 1].X) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        y = this.gPositionsArray[i - 1].Y + (this.gPositionsArray[i].Y - this.gPositionsArray[i - 1].Y) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+        pos = this.SGWorld.Creator.CreatePosition(x, y, h, 3)
         return pos
       }
     }
@@ -219,40 +219,40 @@ export default class DMXClass {
   DMX_JumpToPoint (Point) {
     var nextPoint
     var nextSign
-    if (Point >= gPositionsArray.length) {
-      nextPoint = gPositionsArray[Point - 1].Copy()
+    if (Point >= this.gPositionsArray.length) {
+      nextPoint = this.gPositionsArray[Point - 1].Copy()
       nextSign = 1
     } else {
-      nextPoint = gPositionsArray[Point + 1].Copy()
+      nextPoint = this.gPositionsArray[Point + 1].Copy()
       nextSign = -1
     }
 
-    var jumpPos = gPositionsArray[Point].Copy()
-    var tmpPos = gPositionsArray[Point].Copy()
+    var jumpPos = this.gPositionsArray[Point].Copy()
+    var tmpPos = this.gPositionsArray[Point].Copy()
     jumpPos.Distance = 250
     jumpPos.Pitch = -60
     jumpPos.Yaw = tmpPos.AimTo(nextPoint).Yaw + 90 * nextSign
 
-    SGWorld.Navigate.JumpTo(jumpPos)
+    this.SGWorld.Navigate.JumpTo(jumpPos)
   }
 
 // 里程系与坐标系正反算两个核心的函数实现
 // 根据线路里程计算返回坐标点与轨面高,有方位角
 GetBLPoint (lc) {
-  if (lc < firstlc) return null
-  if (lc > endlc) return null
+  if (lc < this.firstlc) return null
+  if (lc > this.endlc) return null
 
-  var len = gGridArray[0].length
+  var len = this.gGridArray[0].length
   var x, y, h
   var pos
 
   for (var i = 1; i <= len; i++) {
-    if (lc >= gGridArray[0][i - 1][0] && lc <= gGridArray[0][i][0]) {
-      h = gGridArray[1][i - 1][1] + (gGridArray[1][i][1] - gGridArray[1][i - 1][1]) * (lc - gGridArray[1][i - 1][0]) / (gGridArray[1][i][0] - gGridArray[1][i - 1][0])
-      x = gPositionsArray[i - 1].X + (gPositionsArray[i].X - gPositionsArray[i - 1].X) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-      y = gPositionsArray[i - 1].Y + (gPositionsArray[i].Y - gPositionsArray[i - 1].Y) * (lc - gGridArray[0][i - 1][0]) / (gGridArray[0][i][0] - gGridArray[0][i - 1][0])
-      pos = SGWorld.Creator.CreatePosition(x, y, h, 3)
-      pos.yaw = gPositionsArray[i - 1].AimTo(gPositionsArray[i]).yaw
+    if (lc >= this.gGridArray[0][i - 1][0] && lc <= this.gGridArray[0][i][0]) {
+      h = this.gGridArray[1][i - 1][1] + (this.gGridArray[1][i][1] - this.gGridArray[1][i - 1][1]) * (lc - this.gGridArray[1][i - 1][0]) / (this.gGridArray[1][i][0] - this.gGridArray[1][i - 1][0])
+      x = this.gPositionsArray[i - 1].X + (this.gPositionsArray[i].X - this.gPositionsArray[i - 1].X) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+      y = this.gPositionsArray[i - 1].Y + (this.gPositionsArray[i].Y - this.gPositionsArray[i - 1].Y) * (lc - this.gGridArray[0][i - 1][0]) / (this.gGridArray[0][i][0] - this.gGridArray[0][i - 1][0])
+      pos = this.SGWorld.Creator.CreatePosition(x, y, h, 3)
+      pos.yaw = this.gPositionsArray[i - 1].AimTo(this.gPositionsArray[i]).yaw
       return pos
     }
   }
@@ -261,27 +261,27 @@ GetBLPoint (lc) {
 
 // 将一个点投影到线位上返回里程【里程，左右距】
 projectonline (pos) {
-  let len = gPositionsArray.length
+  let len = this.gPositionsArray.length
   let dis
   let markdis = 9e10
   var markk = 0
-
+ debugger
   for (var i = 1; i < len; i++) {
-    dis = gPositionsArray[i].DistanceTo(pos)
+    dis = this.gPositionsArray[i].DistanceTo(pos)
     if (dis < markdis) {
-      dis = markdis
+      markdis = dis
       markk = i
-    } else break // 大半径线路适用
+    } // else break // 大半径线路适用
   }
 
   var pos1, pos2 // 找出两最临近点
-  if (gPositionsArray[markk - 1].DistanceTo(pos) < gPositionsArray[markk + 1].DistanceTo(pos)) {
-    pos1 = gPositionsArray[markk - 1]
-    pos2 = gPositionsArray[markk]
+  if (this.gPositionsArray[markk - 1].DistanceTo(pos) < this.gPositionsArray[markk + 1].DistanceTo(pos)) {
+    pos1 = this.gPositionsArray[markk - 1]
+    pos2 = this.gPositionsArray[markk]
     markk = markk - 1
   } else {
-    pos1 = gPositionsArray[markk]
-    pos2 = gPositionsArray[markk + 1]
+    pos1 = this.gPositionsArray[markk]
+    pos2 = this.gPositionsArray[markk + 1]
   }
 
   pos1.yaw = pos1.AimTo(pos2).yaw
@@ -292,14 +292,14 @@ projectonline (pos) {
 
   dis = pos1.DistanceTo(pos)
   // 返回  [里程，左右距]
-  return [gGridArray[0][markk][0] + dis * Math.cos(angle), dis * Math.sin(angle)]
+  return [this.gGridArray[0][markk][0] + dis * Math.cos(angle), dis * Math.sin(angle)]
 }
 
 // 下面是拓展函数
 
 // 根据线路里程、左右距计算返回坐标点与轨面高
 GetBLPointByLc (lc, offset = 0) {
-  var pos = GetBLPoint(lc)
+  var pos = this.GetBLPoint(lc)
   if (pos == null) return null
   pos.yaw = +90 // 旋转90度
   return pos.move(offset, 0, 0) // 要测试，如果左右侧反了，则pos.move(-offset,0,0)
@@ -308,18 +308,17 @@ GetBLPointByLc (lc, offset = 0) {
 // wx,wy为屏幕窗口坐标
 GetBLPointByWxy (wx, wy) {
   // IWorldPointInfo70 mloc = StaticCommon.mSGWorld.Window.PixelToWorld(wx, wy, WorldPointType.WPT_TERRAIN)
-  let mloc = mSGWorld.Window.PixelToWorld(wx, wy, 0)
-  let lcoff = projectonline(mloc.Position)
+  debugger
+  let mloc = this.SGWorld.Window.PixelToWorld(wx, wy, 0)
+  let lcoff = this.projectonline(mloc.Position)
 
-  let offset = lcoff[1]
-
-  return [GetBLPoint(lcoff[0]), offset]
+  return [this.GetBLPoint(lcoff[0]), lcoff[0], lcoff[1]]
 }
 
 // 根据里程得到行政区划名称
 GetXZQH(lc) {
-  let lp = GetBLPointByLc(lc)
-  return GetXZQHByBL(lp.YL.ToString(), lp.XB.ToString())
+  let lp = this.GetBLPointByLc(lc)
+  return this.GetXZQHByBL(lp.YL.ToString(), lp.XB.ToString())
 }
 
 async GetXZQHByBL (lng, lat) {

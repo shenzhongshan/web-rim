@@ -65,6 +65,7 @@ export default {
       mCurCaseID: null,
       baselineID: null,
       baselineobj: null,
+      mileageReady: false,
       dmx: null
     }
   },
@@ -99,18 +100,55 @@ export default {
       this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal)
       this.mCurCaseID = this.skTools.FindFirstCaseID()
       this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
-
       try{
         this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
       }catch(error){
         console.log(error)
       }
+      
       if(this.baselineobj){
         this.dmx.DMX_DrawBySetLC(this.baselineobj)
+        this.mileageReady = true
         this.setMileageReady(true)
       }else{
         this.setMileageReady(false)
+        this.mileageReady = false
       }
+      this.sgWorld.AttachEvent('OnLButtonClicked', this.onLButtonClicked)
+  },
+  onLButtonClicked (Flags, X, Y) {
+    debugger
+    if (Flags != 4) return false
+      let mpos = this.sgWorld.Window.GetMouseInfo()
+      let wp = this.sgWorld.Window.PixelToWorld(mpos.X, mpos.Y).Position.ToAbsolute()
+      let sResult = "地理坐标：" + wp.X + "," + wp.Y + "," + wp.Altitude
+      if (!this.mileageReady){
+          this.sgWorld.Window.ShowMessageBarText(sResult)
+          return false
+      }
+
+      if (this.mCurCaseID === ""){
+        sResult += "【无线位方案关联】请在结构树上选择节点关联线位查看里程";
+        this.sgWorld.Window.ShowMessageBarText(sResult)
+        return false;
+      }
+
+      let sn = this.sgWorld.ProjectTree.GetItemName(this.mCurCaseID);
+      let len = this.dmx.endlc - this.dmx.firstlc
+      sResult += "当前方案：【" + sn + "】   线路长度：" + len
+      debugger
+      let [pos, lc, offset] = this.dmx.GetBLPointByWxy(mpos.X, mpos.Y);
+      let th = this.dmx.DMX_getTrackH(lc)
+
+      let str = "";
+      if (offset >= 0) {
+        sResult += "位置：" + lc + "; 轨面高：" + th + "; 净高：" + (th - wp.Altitude) + "; 偏离距离:(左)" + offset
+      } else {
+        offset = Math.Abs(offset)
+        sResult += "位置：" + lc + "; 轨面高：" + th + "; 净高：" + (th - wp.Altitude) + "; 偏离距离:(右)" + offset                
+      }
+      this.sgWorld.Window.ShowMessageBarText(sResult,1,5000)
+      return false
     }
   },
   watch: {
