@@ -19,15 +19,15 @@ class SKCommonTools {
           {
             let s = this.mSGWorld.ProjectTree.GetClientData(id, "节点类型");
             if (s == "项目节点") return id;
-          }catch
+          }catch(err)
           {
 
           }
-          
+
             id = this.mSGWorld.ProjectTree.GetNextItem(id, ItemCode.PARENT);
             if (id == this.mSGWorld.ProjectTree.RootID) return "";
             if (id == "") return "";
-             
+
       } while (true);
   }
 
