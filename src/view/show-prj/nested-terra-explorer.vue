@@ -114,40 +114,43 @@ export default {
         this.setMileageReady(false)
         this.mileageReady = false
       }
+      //定位到默认位置
+      let vid = this.skTools.FindFirstObjectID('视野', "")
+      if(vid!="") this.sgWorld.Navigate.FlyTo(vid,0)
       this.sgWorld.AttachEvent('OnLButtonClicked', this.onLButtonClicked)
   },
   onLButtonClicked (Flags, X, Y) {
-    debugger
+   // debugger
     if (Flags != 4) return false
       let mpos = this.sgWorld.Window.GetMouseInfo()
       let wp = this.sgWorld.Window.PixelToWorld(mpos.X, mpos.Y).Position.ToAbsolute()
-      let sResult = "地理坐标：" + wp.X + "," + wp.Y + "," + wp.Altitude
+      let sResult = "地理坐标：" + wp.X.toFixed(6) + "," + wp.Y.toFixed(6) + "," + wp.Altitude.toFixed(2)
       if (!this.mileageReady){
-          this.sgWorld.Window.ShowMessageBarText(sResult)
+          this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
           return false
       }
 
       if (this.mCurCaseID === ""){
         sResult += "【无线位方案关联】请在结构树上选择节点关联线位查看里程";
-        this.sgWorld.Window.ShowMessageBarText(sResult)
+        this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
         return false;
       }
 
       let sn = this.sgWorld.ProjectTree.GetItemName(this.mCurCaseID);
       let len = this.dmx.endlc - this.dmx.firstlc
-      sResult += "当前方案：【" + sn + "】   线路长度：" + len
-      debugger
+      sResult += "当前方案：【" + sn + "】   线路长度：" + len.toFixed(2)
+     // debugger
       let [pos, lc, offset] = this.dmx.GetBLPointByWxy(mpos.X, mpos.Y);
       let th = this.dmx.DMX_getTrackH(lc)
 
       let str = "";
       if (offset >= 0) {
-        sResult += "位置：" + lc + "; 轨面高：" + th + "; 净高：" + (th - wp.Altitude) + "; 偏离距离:(左)" + offset
+        sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(左)" + offset.toFixed(2)
       } else {
-        offset = Math.Abs(offset)
-        sResult += "位置：" + lc + "; 轨面高：" + th + "; 净高：" + (th - wp.Altitude) + "; 偏离距离:(右)" + offset                
+        offset = Math.abs(offset)
+        sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(右)" + offset.toFixed(2)                
       }
-      this.sgWorld.Window.ShowMessageBarText(sResult,1,5000)
+      this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)     
       return false
     }
   },

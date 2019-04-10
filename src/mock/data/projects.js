@@ -2,13 +2,13 @@ export const prjList = [
   {
     logo: '',
     title: 'prj1,这是一个标题,这是一个标题,这是一个标题',
-    path: 'C:\\WebRIM\\main.fly',
+    path: '\\\\192.10.15.200\\FLYProject\\太仓港支线铁路\\main.FLY',
     desc: '这是一个表述，这是一个表述，这是一个表述，这是一个表述'
   },
   {
     logo: '',
     title: 'prj2',
-    path: 'C:\\WebRIM\\test2.FLY',
+    path: 'F:\\工程演示\\武襄十\\main.fly',
     desc: '这是一个表述，这是一个表述，这是一个表述，这是一个表述'
   },
   {

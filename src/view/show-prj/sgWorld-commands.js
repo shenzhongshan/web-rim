@@ -12,20 +12,44 @@ class SGWorldCommands {
   }
   saveProject () {
     if (this.sgWorld) {
+
+      let vid = this.skTools.FindFirstObjectID('视野', "")
+      if(vid!="") this.sgWorld.ProjectTree.DeleteItem(vid)
+      this.sgWorld.Creator.CreateLocationHere(StaticCommon.mSGWorld.ProjectTree.RootID, "视野");
+
       this.sgWorld.Project.Save()
     }
   }
+
+  Capturelogo()
+  {
+    
+    let fn=this.sgWorld.Project.Name;
+    fn=fn.toLowerCase()
+
+    fn=fn.replace(".fly",".jpg");    
+    let nfn=this.sgWorld.window.GetSnapShot(true,800,500,"JPeg75",0);
+    // alert(nfn);
+    let fso = new ActiveXObject("Scripting.FileSystemObject");
+    fso.MoveFile(nfn, fn)
+    alert("提取成功！")
+
+  }
+
   // 查看纵断面
   viewVerticalSection () {
-    if (this.sgWorld) {
+    if (!this.sgWorld) return;
+debugger
       let itemName = this.skTools.GetSelFeatureName()
       let url = ''
       let mCurID = this.skTools.GetSelFeature()
       let mCurCaseID = this.skTools.JudgeProjectNode(mCurID)
       let flags = _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_DRAG | _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_RESIZE
+      alert(itemName);
       let prefixUrl = window.location.origin + this.baseUrl
       if (itemName.indexOf('基线') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + mCurID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
+        alert(url);
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
@@ -40,7 +64,7 @@ class SGWorldCommands {
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
       }
-    }
+    
   }
   // 提取纵断面
   extractVerticalSection () {

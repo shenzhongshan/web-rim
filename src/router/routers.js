@@ -292,6 +292,15 @@ export default [{
             title: '导出FLY'
           },
           component: nullpage
+        }, {
+          path: 'logo',
+          name: 'Capturelogo',
+          meta: {
+            icon: 'md-funnel',
+            command: 'Capturelogo',
+            title: '更新Logo'
+          },
+          component: nullpage
         }]
       }
     ]
