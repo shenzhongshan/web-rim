@@ -15,19 +15,16 @@ class SKCommonTools {
   //给定节点向上追索到其项目节点
   JudgeProjectNode (id) {
       do {
-          try
-          {
+          debugger
+          try {
             let s = this.mSGWorld.ProjectTree.GetClientData(id, "节点类型");
             if (s == "项目节点") return id;
-          }catch(err)
-          {
-
+          }catch(err) {
+            console.log(err)
           }
-
-            id = this.mSGWorld.ProjectTree.GetNextItem(id, ItemCode.PARENT);
-            if (id == this.mSGWorld.ProjectTree.RootID) return "";
-            if (id == "") return "";
-
+          id = this.mSGWorld.ProjectTree.GetNextItem(id, ItemCode.PARENT);
+          if (id == this.mSGWorld.ProjectTree.RootID) return "";
+          if (id == "") return "";
       } while (true);
   }
 
@@ -174,10 +171,15 @@ class SKCommonTools {
   }
 
   // 得到当前选择节点的节点对象
-  GetSelFeature() {debugger
+  GetSelFeature() {
       let id = this.mSGWorld.ProjectTree.GetNextItem(this.mSGWorld.ProjectTree.RootID, ItemCode.SELECTED);
       if (!id || id == "") return null;
       return this.mSGWorld.ProjectTree.GetObject(id)
   }
+
+  GetSelFeatureID() {
+    let id = this.mSGWorld.ProjectTree.GetNextItem(this.mSGWorld.ProjectTree.RootID, ItemCode.SELECTED);    
+    return id;
+}
 }
 export default SKCommonTools

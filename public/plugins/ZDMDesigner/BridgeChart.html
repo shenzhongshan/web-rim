@@ -58,7 +58,7 @@
 <table border=0 style="width:100%; " id="Table1" style="display:none;" cellspacing=0 cellpadding=1>
     <tr tyle="width:100%">
     <td align="center">
-    <span class="i18n" style="font-size:24px">���ڴ������ݶ���......</span> 
+    <span class="i18n" style="font-size:24px">正在打开桥梁纵断面......</span> 
 </td>
 </tr>
 </table>
@@ -69,32 +69,32 @@
     <tr style="width:100%; height:40px;">
     <td align="left" style="width:25%;">
         <span style="padding-left:30px;" />
-        <img src="img/ZoomOut.png" style="cursor:pointer;" onclick="gPlot.zoomOut();" align="absmiddle" />
-        <img src="img/ZoomIn.png" style="cursor:pointer;" onclick="gPlot.zoom();"  align="absmiddle" /> 
-        <img src="img/Zoomall.png" style="cursor:pointer;" onclick="DrawGraph();"  align="absmiddle" /> 
+        <img src="img/zoomout.png" style="cursor:pointer;" onclick="gPlot.zoomOut();" align="absmiddle" />
+        <img src="img/zoomin.png" style="cursor:pointer;" onclick="gPlot.zoom();"  align="absmiddle" /> 
+        <img src="img/zoomall.png" style="cursor:pointer;" onclick="DrawGraph();"  align="absmiddle" /> 
         <span style="padding-left:30px;" />       
-       <span class="i18n" style="font-size:24px" id= "FlagerID">�������</span>    
+       <span class="i18n" style="font-size:24px" id= "FlagerID">插旗设计</span>    
     </td>
     <td align="center" style="width:35%;">            
-        �����̣�<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="setstartlc" value="1"></input> <span style="padding-left:30px;" />  
-        �յ���̣�<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="setendlc" value="1"></input> <span style="padding-left:30px;" />  
-        ȫ����<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="comlength" value="1" readonly="readonly"></input>       
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:30px;" id="SetButton" onclick="SetStartEndLC();">�趨</button>
+        起点里程：<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="setstartlc" value="1"></input> <span style="padding-left:30px;" />  
+        终点里程：<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="setendlc" value="1"></input> <span style="padding-left:30px;" />  
+        全长：<input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:70px;" id="comlength" value="1" readonly="readonly"></input>       
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:30px;" id="SetButton" onclick="SetStartEndLC();">设定</button>
         <span style="padding-left:10px;" />
     </td>
     
     <td align="right">
-         <input type="checkbox" name="num" value="" onclick="if(this.checked==true) { isFollow=true; } else { isFollow=false; };"/> ��ά����
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SelectForward();">ǰѡ</button>        
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SelectBackward();">��ѡ</button>
+         <input type="checkbox" name="num" value="" onclick="if(this.checked==true) { isFollow=true; } else { isFollow=false; };"/> 三维跟随
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SelectForward();">前选</button>        
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SelectBackward();">后选</button>
          <input style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px; width:40px;" id="movelcid" value="1"></input>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="moveLC();">�ƶ�</button>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SetLC();">��λ</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="moveLC();">移动</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="SetLC();">调位</button>
         
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="AddButton" onclick="AddPierByDist();">����</button>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="AddButton" onclick="AddPier();">����</button>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="DeleteButton" onclick="DeletePier();">ɾ��</button>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="CommitPier();">�ύ</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="AddButton" onclick="AddPierByDist();">附加</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="AddButton" onclick="AddPier();">添加</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="DeleteButton" onclick="DeletePier();">删除</button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CommitButton" onclick="CommitPier();">提交</button>
         <span style="padding-left:10px;" />
     </td>
 </tr>
@@ -111,17 +111,17 @@
 <script language="javascript" src="../ToolsCommon70.js"></script>
 
 
-	    <script language="javascript" type="text/javascript" src="../jquery/jquery.min.js"></script>
-	    <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.min.js"></script>
-    	<script language="javascript" type="text/javascript" src="../jquery/jquery.flot.navigate.min.js"></script>
-      	<script language="javascript" type="text/javascript" src="../jquery/jquery-ui-1.10.4.custom.min.js"></script>
-        <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.resize.min.js"></script>
-        <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.symbol.min.js"></script>
+	    <script language="javascript" type="text/javascript" src="../JQuery/jquery.min.js"></script>
+	    <script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.min.js"></script>
+    	<script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.navigate.min.js"></script>
+      	<script language="javascript" type="text/javascript" src="../JQuery/jquery-ui-1.10.4.custom.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.resize.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.symbol.min.js"></script>
 	<script language="javascript" type="text/javascript" src="../jquery.flot.threshold.js"></script>
 <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.selection.js"></script> 
-	<script language="javascript" type="text/javascript" src="DMXClass.js"></script>
- 	<script language="javascript" type="text/javascript" src="allcommon.js"></script>
- 	<script language="javascript" type="text/javascript" src="bridgefunction.js"></script>
+	<script language="javascript" type="text/javascript" src="./DMXClass.js"></script>
+ 	<script language="javascript" type="text/javascript" src="./allcommon.js"></script>
+ 	<script language="javascript" type="text/javascript" src="./bridgefunction.js"></script>
  	
 
 <script language="JavaScript">

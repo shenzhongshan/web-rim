@@ -1,6 +1,6 @@
 var gBPDIDs=[];
 var bpdGroupID="";
-var CaseID="";  //øÿ÷∆≤Œ ˝æ°¡øÕ≥“ª∑≈‘⁄CaseID≤„√Ê
+var CaseID="";  //ÊéßÂà∂ÂèÇÊï∞Â∞ΩÈáèÁªü‰∏ÄÊîæÂú®CaseIDÂ±ÇÈù¢
 var curBPDindex=-1;
 var indragmode=false;
 
@@ -10,6 +10,7 @@ function OnFollowCheck()
    if(this.checked==true) { isFollow=true; alert('True');} else { isFollow=false; alert('false');}	
 }
 
+
 //------------
 // StartQuery
 function StartQuery() 
@@ -18,18 +19,16 @@ function StartQuery()
        
         
         objectID = GetParamValue("ObjID", "0"); 
-        gStep = 50;
-        bpdGroupID =GetParamValue("BPDGroupID", "0");  
+        gStep = 50;       
         CaseID =GetParamValue("CaseID", "0");  
-	   
+        alert(CaseID);
+	    bpdGroupID =  FindFirstObjectID('ÂèòÂù°ÁÇπ',CaseID);
         var obj = SGWorld.ProjectTree.GetObject(objectID);        
         
        
           
           firstlc=parseFloat(SGWorld.ProjectTree.GetClientData(CaseID,"StartLC"));
           endlc=parseFloat(SGWorld.ProjectTree.GetClientData(CaseID,"EndLC"));
-          
-         SGWorld.Window.SetInputMode(1, abspath()+"/hourglass.cur", true);
          DMX_DrawBySetLC(obj);	
 	 DrawPDX();
   	 DrawGraph(); 
@@ -69,9 +68,9 @@ function SelfRefresh()
 function ReDrawGraph(ispan)
 {
    var data = [];
-  	data.push({ data: gGridArray[0], label: "µÿ√Êœﬂ", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 0.7 }, { opacity: 0.1}] } }, color: '#00ff00',threshold: { below: gMinAltitude+50, color: "rgb(200, 20, 30)" }});
-	data.push({ data: gGridArray[1], label: "πÏ√Êœﬂ", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
-	data.push({ data: gGridArray[2], label: "∆¬∂»œﬂ", lines: { show: true, fill: false },points: { symbol: "triangle", fillColor: "#0062FF", show: true },color: '#0000ff',highlightColor:'#ff0000'});
+  	data.push({ data: gGridArray[0], label: "Âú∞Èù¢Á∫ø", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 0.7 }, { opacity: 0.1}] } }, color: '#00ff00',threshold: { below: gMinAltitude+50, color: "rgb(200, 20, 30)" }});
+	data.push({ data: gGridArray[1], label: "ËΩ®Èù¢Á∫ø", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
+	data.push({ data: gGridArray[2], label: "Âù°Â∫¶Á∫ø", lines: { show: true, fill: false },points: { symbol: "triangle", fillColor: "#0062FF", show: true },color: '#0000ff',highlightColor:'#ff0000'});
         	
      	if(gPlot!=null) {
      		gPlot.setData(data);
@@ -86,9 +85,9 @@ function DrawGraph() {
    
   
     var data = [];
-	data.push({ data: gGridArray[0], label: "µÿ√Êœﬂ", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 0.7 }, { opacity: 0.1}] } }, color: '#00ff00',threshold: { below: gMinAltitude+50, color: "rgb(200, 20, 30)" }});
-	data.push({ data: gGridArray[1], label: "πÏ√Êœﬂ", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
-	data.push({ data: gGridArray[2], label: "∆¬∂»œﬂ", lines: { show: true, fill: false },points: { symbol: "triangle", fillColor: "#0062FF", show: true },color: '#0000ff',highlightColor:'#ff0000'});
+	data.push({ data: gGridArray[0], label: "Âú∞Èù¢Á∫ø", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 0.7 }, { opacity: 0.1}] } }, color: '#00ff00',threshold: { below: gMinAltitude+50, color: "rgb(200, 20, 30)" }});
+	data.push({ data: gGridArray[1], label: "ËΩ®Èù¢Á∫ø", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
+	data.push({ data: gGridArray[2], label: "Âù°Â∫¶Á∫ø", lines: { show: true, fill: false },points: { symbol: "triangle", fillColor: "#0062FF", show: true },color: '#0000ff',highlightColor:'#ff0000'});
 
     gPlot = $.plot("#chartdiv", data,
     {
@@ -196,7 +195,7 @@ function ToolTip(event, pos, item)
           
            
           var obj =SGWorld.ProjectTree.GetObject(gBPDIDs[curBPDindex]);
-          obj.TreeItem.Name="±‰∆¬µ„_"+ToMarkString(lc);
+          obj.TreeItem.Name="ÂèòÂù°ÁÇπ_"+ToMarkString(lc);
           obj.Position =GetPosByLc(lc);
           SGWorld.ProjectTree.SetClientData(gBPDIDs[curBPDindex],"LC",lc);
           SGWorld.ProjectTree.SetClientData(gBPDIDs[curBPDindex],"H",pos.y);
@@ -218,15 +217,15 @@ function ToolTip(event, pos, item)
  		
 		mTop =  item.pageY + 5;
 		mLeft=  item.pageX + 5;
-		htmlStr ="¿Ô≥Ã£∫"+ gGridArray[Line][Point][0].toFixed(2)+ "<br/>∏ﬂ≥Ã: " + gGridArray[Line][Point][1].toFixed(2);
+		htmlStr ="ÈáåÁ®ãÔºö"+ gGridArray[Line][Point][0].toFixed(2)+ "<br/>È´òÁ®ã: " + gGridArray[Line][Point][1].toFixed(2);
 		
 		    if(Point>1) {
 		       var sp=(gGridArray[Line][Point][1]-gGridArray[Line][Point-1][1]) * 1000 /(gGridArray[Line][Point][0]-gGridArray[Line][Point-1][0]);
-		       htmlStr=htmlStr+"<br/>«∞∆¬∂»:"+sp.toFixed(2) +"°Î";
+		       htmlStr=htmlStr+"<br/>ÂâçÂù°Â∫¶:"+sp.toFixed(2) +"‚Ä∞";
 		    }
 		    if(Point<gGridArray[Line].length) {
 		       var sp=(gGridArray[Line][Point+1][1]-gGridArray[Line][Point][1])*1000 /(gGridArray[Line][Point+1][0]-gGridArray[Line][Point][0]);
-		       htmlStr=htmlStr+"<br/>∫Û∆¬∂»:"+sp.toFixed(2) +"°Î";
+		       htmlStr=htmlStr+"<br/>ÂêéÂù°Â∫¶:"+sp.toFixed(2) +"‚Ä∞";
 		    }
 	       
 	        $("#tooltip").html(htmlStr)
@@ -250,7 +249,7 @@ function DeleteBPD() {
 	var len=gGridArray[2].length-1;
 	if(curBPDindex == 0 || curBPDindex == len)
 	{
-		alert("≤ªƒ‹…æ≥˝∆÷’µ„µƒ±‰∆¬µ„°£");
+		alert("‰∏çËÉΩÂà†Èô§Ëµ∑ÁªàÁÇπÁöÑÂèòÂù°ÁÇπ„ÄÇ");
 		return;
 	}
 	
@@ -302,7 +301,7 @@ function AddToBPD(pos)
             labelStyle.Bold = true;
             labelStyle.LineToGround = true;
             labelStyle.TextColor = SGWorld.Creator.CreateColor(255, 0, 0);
-            var tx="±‰∆¬µ„_"+ToMarkString(pos.x);     	   
+            var tx="ÂèòÂù°ÁÇπ_"+ToMarkString(pos.x);     	   
             
           var posdd =GetPosByLc(pos.x);
           posdd.Altitude=pos.y;
@@ -344,7 +343,6 @@ function DrawPDX()
 {      
     gGridArray[2] = [];
     gBPDIDs =[];
-    
     var curbpdid=SGWorld.ProjectTree.GetNextItem(bpdGroupID,11);
     if (curbpdid=="") return;
     gBPDIDs.push(curbpdid);
@@ -354,8 +352,8 @@ function DrawPDX()
      h=parseFloat(obj.ClientData("H"));
         
     gGridArray[2].push([lc, h]);        
-    
     curbpdid=SGWorld.ProjectTree.GetNextItem(curbpdid,13);
+    alert(curbpdid);
     while(curbpdid!="")
     {
         obj=SGWorld.ProjectTree.GetObject(curbpdid);
@@ -364,8 +362,45 @@ function DrawPDX()
 	 gBPDIDs.push(curbpdid);
 	gGridArray[2].push([lc, h]);   
 	
-	 curbpdid=SGWorld.ProjectTree.GetNextItem(curbpdid,13);
+     curbpdid=SGWorld.ProjectTree.GetNextItem(curbpdid,13);
+     alert(curbpdid);
     }
    
 }
+
+function FindObjectID(objName, ParentID){
+    var mIDs = [];
+    try{
+        var ChildID = SGWorld.ProjectTree.GetNextItem(ParentID, 11);
+        while (true){
+            if (!ChildID || ChildID.trim()=="") break;
+            if (SGWorld.ProjectTree.GetItemName(ChildID) == objName){
+                mIDs.push(ChildID);
+            }
+            if (SGWorld.ProjectTree.IsGroup(ChildID)){
+                var mSubIDs = FindObjectID(objName, ChildID);
+                if (mSubIDs.length > 0){
+                    for(var i=0;i < mSubIDs.length;i++){
+                        mIDs.push(mSubIDs[i]);
+                    }
+                }   
+            }
+            ChildID = SGWorld.ProjectTree.GetNextItem(ChildID, 13);
+        }
+    }catch(e) {
+        alert(e);
+        // return mIDs;
+        // Nonthing
+    }
+    return mIDs;
+}
+
+
+function FindFirstObjectID(objName, ParentID){
+  var s = FindObjectID(objName, ParentID)
+  if (s.length > 0) return s[0]
+  return ""
+}
+
+
 

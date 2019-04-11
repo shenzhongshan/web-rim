@@ -42,14 +42,13 @@ class SGWorldCommands {
 debugger
       let itemName = this.skTools.GetSelFeatureName()
       let url = ''
-      let mCurID = this.skTools.GetSelFeature()
+      let mCurID = this.skTools.GetSelFeatureID()
       let mCurCaseID = this.skTools.JudgeProjectNode(mCurID)
       let flags = _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_DRAG | _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_RESIZE
-      alert(itemName);
       let prefixUrl = window.location.origin + this.baseUrl
       if (itemName.indexOf('基线') > -1) {
         url = prefixUrl + 'plugins/ZDMDesigner/ZDMChart.html?ObjID=' + mCurID + '&CaseID=' + mCurCaseID + '&Step=50&Caption=纵断面'
-        alert(url);
+        console.log(url)
         let msg = this.sgWorld.Creator.CreatePopupMessage('纵断面', url, 1, this.sgWorld.Window.Rect.Height * 2 / 3, this.sgWorld.Window.Rect.Width - 2, this.sgWorld.Window.Rect.Height / 3, -1)
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)

@@ -20,7 +20,7 @@ function StartQuery()
           firstlc=parseFloat(obj.ClientData("StartLC"))-50;
           endlc=parseFloat(obj.ClientData("EndLC"))+50;
           
-         SGWorld.Window.SetInputMode(1, abspath()+"/hourglass.cur", true);
+         // SGWorld.Window.SetInputMode(1, abspath()+"/hourglass.cur", true);
          DMX_DrawByDist(geometry,obj);
 		
 	 GetPierList();
@@ -28,7 +28,7 @@ function StartQuery()
   	 DrawGraph(); 
   	
   	 	  	
-  	$("#FlagerID").html(objectName+"  ²åÆìÉè¼Æ");
+  	$("#FlagerID").html(objectName+"  æ’æ——è®¾è®¡");
   	
   	$("#setstartlc").val((firstlc+50).toFixed(2));
   	$("#setendlc").val((endlc-50).toFixed(2));
@@ -69,7 +69,7 @@ function SetStartEndLC()
     	ReDrawGraph();    	
     }catch(err)
     {
-    	alert("Àï³ÌÊäÈëÓĞÎó£¡");
+    	alert("é‡Œç¨‹è¾“å…¥æœ‰è¯¯ï¼");
     }
 }
 
@@ -98,7 +98,7 @@ function JustPierList()
 		gGridArray[2].splice(k,1);
 	}
 	
-	//Ê×¿ç¼ä¾àµ÷Õû
+	//é¦–è·¨é—´è·è°ƒæ•´
 	if(gGridArray[2][1][0]-gGridArray[2][0][0]<10) 
 	{
 		gGridArray[2].splice(1,1)
@@ -109,7 +109,7 @@ function JustPierList()
 	}
 	
 	
-	//Î²¿ç¼ä¾àµ÷Õû
+	//å°¾è·¨é—´è·è°ƒæ•´
 	len =gGridArray[2].length;
 	if(gGridArray[2][len-1][0]-gGridArray[2][len-2][0]<10) 
 	{
@@ -134,15 +134,15 @@ function DrawGraph() {
    
   
     var data = [];
-        data.push({ data: gGridArray[2], label: "¶ÕÌ¨", bars: { show: true, barWidth: 5, align:'center', horizontal: false, zero:true }, points: { show: false },color: '#ff00ff',highlightColor:'#ff0000'});
-	data.push({ data: gGridArray[0], label: "µØÃæÏß", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 1 }, { opacity: 0}] } }, color: '#00ff00'});
-	data.push({ data: gGridArray[1], label: "¹ìÃæÏß", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
+        data.push({ data: gGridArray[2], label: "å¢©å°", bars: { show: true, barWidth: 5, align:'center', horizontal: false, zero:true }, points: { show: false },color: '#ff00ff',highlightColor:'#ff0000'});
+	data.push({ data: gGridArray[0], label: "åœ°é¢çº¿", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 1 }, { opacity: 0}] } }, color: '#00ff00'});
+	data.push({ data: gGridArray[1], label: "è½¨é¢çº¿", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
 		    
-	    data.push({ data: gGridArray[3], label: "µØÖÊ²ã1", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#8080ff'});
-	    data.push({ data: gGridArray[4], label: "µØÖÊ²ã2", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#0080ff'});
-	  //  data.push({ data: gGridArray[5], label: "µØÖÊ²ã3", lines: { show: true,width:0, fill: true }, points: { show: false },fillcolor: "rgba(255, 255, 0, 1)");
-	    data.push({ data: gGridArray[5], label: "µØÖÊ²ã3", lines: { show: true, width:0,fill: true }, points: { show: false },color: '#ffff00'});
-	    data.push({ data: gGridArray[6], label: "µØÖÊ²ã4", lines: { show: true,width:0, fill: true,fillColor: "rgba(255, 255, 255, 0.8)" }, points: { show: false },color: '#ff8040'});
+	    data.push({ data: gGridArray[3], label: "åœ°è´¨å±‚1", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#8080ff'});
+	    data.push({ data: gGridArray[4], label: "åœ°è´¨å±‚2", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#0080ff'});
+	  //  data.push({ data: gGridArray[5], label: "åœ°è´¨å±‚3", lines: { show: true,width:0, fill: true }, points: { show: false },fillcolor: "rgba(255, 255, 0, 1)");
+	    data.push({ data: gGridArray[5], label: "åœ°è´¨å±‚3", lines: { show: true, width:0,fill: true }, points: { show: false },color: '#ffff00'});
+	    data.push({ data: gGridArray[6], label: "åœ°è´¨å±‚4", lines: { show: true,width:0, fill: true,fillColor: "rgba(255, 255, 255, 0.8)" }, points: { show: false },color: '#ff8040'});
 	 
 	 	 
     gPlot = $.plot("#chartdiv", data,
@@ -235,11 +235,11 @@ function ToolTip(event, pos, item)
 		
 		
 		   var e = DMX_getlcElev(gGridArray[2][Point][0]);
-		    htmlStr ="Àï³Ì£º"+ gGridArray[2][Point][0].toFixed(2)+ "<br/>¸ß³Ì: " + gGridArray[2][Point][1].toFixed(2)+"<br/>¾»¸ß:"+(gGridArray[2][Point][1]-e).toFixed(2);
+		    htmlStr ="é‡Œç¨‹ï¼š"+ gGridArray[2][Point][0].toFixed(2)+ "<br/>é«˜ç¨‹: " + gGridArray[2][Point][1].toFixed(2)+"<br/>å‡€é«˜:"+(gGridArray[2][Point][1]-e).toFixed(2);
 		  
-		    if(Point>=1) htmlStr = htmlStr + "<br/>Ç°¿ç£º"+(gGridArray[2][Point][0]-gGridArray[2][Point-1][0]).toFixed(1);
+		    if(Point>=1) htmlStr = htmlStr + "<br/>å‰è·¨ï¼š"+(gGridArray[2][Point][0]-gGridArray[2][Point-1][0]).toFixed(1);
 		   
-		    if(Point<gGridArray[2].length-1) htmlStr += "<br/>ºó¿ç£º"+(gGridArray[2][Point+1][0]-gGridArray[2][Point][0]).toFixed(1);
+		    if(Point<gGridArray[2].length-1) htmlStr += "<br/>åè·¨ï¼š"+(gGridArray[2][Point+1][0]-gGridArray[2][Point][0]).toFixed(1);
 		
 	  
 	     $("#tooltip").html(htmlStr)
@@ -268,11 +268,11 @@ function AddPier()
 
 function AddPierByDist()
 {
-   if(selectedPier.length<1) { alert("ÇëÏÈÑ¡ÔñÒª²ÎÕÕµÄ¶ÕÌ¨!"); return;}
+   if(selectedPier.length<1) { alert("è¯·å…ˆé€‰æ‹©è¦å‚ç…§çš„å¢©å°!"); return;}
    var movelc=parseFloat($("#movelcid").val());
     if(movelc<10 || movelc>300)
    { 
-   	alert("ÇëÉèÖÃ¸½¼Ó¿×¿ç¼ä¾à£¬¿×¿ç¼ä¾à²»ÄÜĞ¡ÓÚ10m´óÓÚ300m¡£");
+   	alert("è¯·è®¾ç½®é™„åŠ å­”è·¨é—´è·ï¼Œå­”è·¨é—´è·ä¸èƒ½å°äº10må¤§äº300mã€‚");
    	$("#movelcid").val("32");
    	return;
    }
@@ -302,7 +302,7 @@ function AddPierByPos(pos)
    
    if(movelc<10)
    { 
-   	alert("ÉèÖÃµÄ¸½¼Ó¿×¿ç¼ä¾à²»ÄÜĞ¡ÓÚ10¡£");
+   	alert("è®¾ç½®çš„é™„åŠ å­”è·¨é—´è·ä¸èƒ½å°äº10ã€‚");
    	return;
    }
     
@@ -316,9 +316,9 @@ function AddPierByPos(pos)
 function SetLC()
 {
    var movelc=parseFloat($("#movelcid").val());
-   if(movelc>endlc || movelc<firstlc) { alert("ÉèÖÃÀï³Ì³¬³ö·¶Î§!");$("#movelcid").val("1"); return;}
+   if(movelc>endlc || movelc<firstlc) { alert("è®¾ç½®é‡Œç¨‹è¶…å‡ºèŒƒå›´!");$("#movelcid").val("1"); return;}
    
- if(selectedPier.length<1) { alert("ÇëÏÈÑ¡ÔñÒªÉèÖÃµÄ¶ÕÌ¨!"); return;}
+ if(selectedPier.length<1) { alert("è¯·å…ˆé€‰æ‹©è¦è®¾ç½®çš„å¢©å°!"); return;}
  
 	var c=selectedPier[0];
        
@@ -334,7 +334,7 @@ function SetLC()
 
 function SelectForward()
 {
-     if(selectedPier.length<1) { alert("ÇëÏÈÑ¡ÔñÒª²ÎÕÕµÄ¶ÕÌ¨!"); return;}
+     if(selectedPier.length<1) { alert("è¯·å…ˆé€‰æ‹©è¦å‚ç…§çš„å¢©å°!"); return;}
      var c=selectedPier[0];
      selectedPier=[];
      for(var i=0;i<=c;i++)
@@ -346,7 +346,7 @@ function SelectForward()
 
 function SelectBackward()
 {
-     if(selectedPier.length<1) { alert("ÇëÏÈÑ¡ÔñÒª²ÎÕÕµÄ¶ÕÌ¨!"); return;}
+     if(selectedPier.length<1) { alert("è¯·å…ˆé€‰æ‹©è¦å‚ç…§çš„å¢©å°!"); return;}
      var c=selectedPier[0];
      selectedPier=[];
      for(var i=c;i<gGridArray[2].length;i++)
@@ -361,7 +361,7 @@ function SelectBackward()
 function moveLC()
 {
    var movelc=parseFloat($("#movelcid").val());
-   if(movelc>32 || movelc<-32) { alert("Æ«ÒÆÀï³Ì²»ÄÜ³¬¹ı32m!"); return;}
+   if(movelc>32 || movelc<-32) { alert("åç§»é‡Œç¨‹ä¸èƒ½è¶…è¿‡32m!"); return;}
    
    selectedPier.sort();
 	var c=-1;
@@ -399,7 +399,7 @@ function CommitPier()
      SGWorld.ProjectTree.SetClientData(objectID,"PierConfigString",str);
      
      SGWorld.ProjectTree.SelectItem(objectID);
-     alert("Ìá½»³É¹¦,ÇëÖØĞÂ½øĞĞ½¨Ä£¡£");
+     alert("æäº¤æˆåŠŸ,è¯·é‡æ–°è¿›è¡Œå»ºæ¨¡ã€‚");
 }
 
 
@@ -444,13 +444,13 @@ function DeletePier()
 function ReDrawGraph()
 {
    var data = [];
-        data.push({ data: gGridArray[2], label: "¶ÕÌ¨", bars: { show: true, barWidth: 5, align:'center', horizontal: false, zero:true }, points: { show: false },color: '#ff00ff',highlightColor:'#ff0000'});
-	data.push({ data: gGridArray[0], label: "µØÃæÏß", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 1 }, { opacity: 0}] } }, color: '#00ff00'});
-	data.push({ data: gGridArray[1], label: "¹ìÃæÏß", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
-	 data.push({ data: gGridArray[3], label: "µØÖÊ²ã1", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#8080ff'});
-	    data.push({ data: gGridArray[4], label: "µØÖÊ²ã2", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#0080ff'});
-	    data.push({ data: gGridArray[5], label: "µØÖÊ²ã3", lines: { show: true, width:0,fill: true }, points: { show: false },color: '#ffff00'});
-	    data.push({ data: gGridArray[6], label: "µØÖÊ²ã4", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#ff8040'});
+        data.push({ data: gGridArray[2], label: "å¢©å°", bars: { show: true, barWidth: 5, align:'center', horizontal: false, zero:true }, points: { show: false },color: '#ff00ff',highlightColor:'#ff0000'});
+	data.push({ data: gGridArray[0], label: "åœ°é¢çº¿", lines: { show: true, fill: true,width:1, fillColor: { colors: [{ opacity: 1 }, { opacity: 0}] } }, color: '#00ff00'});
+	data.push({ data: gGridArray[1], label: "è½¨é¢çº¿", lines: { show: true, fill: false }, points: { show: false },color: '#ff0000'});
+	 data.push({ data: gGridArray[3], label: "åœ°è´¨å±‚1", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#8080ff'});
+	    data.push({ data: gGridArray[4], label: "åœ°è´¨å±‚2", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#0080ff'});
+	    data.push({ data: gGridArray[5], label: "åœ°è´¨å±‚3", lines: { show: true, width:0,fill: true }, points: { show: false },color: '#ffff00'});
+	    data.push({ data: gGridArray[6], label: "åœ°è´¨å±‚4", lines: { show: true,width:0, fill: true }, points: { show: false },color: '#ff8040'});
 	    
      if(gPlot!=null) {
      		gPlot.setData(data);
@@ -461,8 +461,8 @@ function ReDrawGraph()
 function AddToPiers(lc)
 {	
      
-     if (lc<firstlc){ alert("¼Ó¶ÕÀï³ÌÓ¦¸ÃÔÚÆğµãÓëÖÕµãÀï³ÌÖ®¼ä!");  return false;}
-     if (lc>endlc) { alert("¼Ó¶ÕÀï³ÌÓ¦¸ÃÔÚÆğµãÓëÖÕµãÀï³ÌÖ®¼ä!");  return false;}
+     if (lc<firstlc){ alert("åŠ å¢©é‡Œç¨‹åº”è¯¥åœ¨èµ·ç‚¹ä¸ç»ˆç‚¹é‡Œç¨‹ä¹‹é—´!");  return false;}
+     if (lc>endlc) { alert("åŠ å¢©é‡Œç¨‹åº”è¯¥åœ¨èµ·ç‚¹ä¸ç»ˆç‚¹é‡Œç¨‹ä¹‹é—´!");  return false;}
      
      for(var k=1;k<=gGridArray[2].length;k++)
      {

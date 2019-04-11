@@ -58,7 +58,7 @@
 <table border=0 style="width:100%; " id="Table1" style="display:none;" cellspacing=0 cellpadding=1>
     <tr tyle="width:100%">
     <td align="center">
-    <span class="i18n" style="font-size:24px">ÕıÔÚÉú³É×İ¶ÏÃæÍ¼......</span> 
+    <span class="i18n" style="font-size:24px">æ­£åœ¨ç”Ÿæˆçºµæ–­é¢å›¾......</span> 
 </td>
 </tr>
 </table>
@@ -69,17 +69,17 @@
     <tr style="width:100%; height:40px;">
     <td align="left">
         <span style="padding-left:30px;" />
-        <img src="img/ZoomOut.png" style="cursor:pointer;" onclick="gPlot.zoomOut();" align="absmiddle" />
-        <img src="img/ZoomIn.png" style="cursor:pointer;" onclick="gPlot.zoom();"  align="absmiddle" /> 
-        <img src="img/Zoomall.png" style="cursor:pointer;" onclick="DrawGraph();"  align="absmiddle" /> 
+        <img src="./img/zoomout.png" style="cursor:pointer;" onclick="gPlot.zoomOut();" align="absmiddle" />
+        <img src="./img/zoomin.png" style="cursor:pointer;" onclick="gPlot.zoom();"  align="absmiddle" /> 
+        <img src="./img/zoomall.png" style="cursor:pointer;" onclick="DrawGraph();"  align="absmiddle" /> 
         <span style="padding-left:30px;" />
         
-       <span class="i18n" style="font-size:24px">×İ¶ÏÃæÉè¼Æ</span>  <span class="i18n" style="font-size:16px"></span>        
+       <span class="i18n" style="font-size:24px">çºµæ–­é¢è®¾è®¡</span>  <span class="i18n" style="font-size:16px"></span>        
     </td>
     <td align="right">
-        <input type="checkbox" name="num" value="" onclick="if(this.checked==true) { isFollow=true; } else { isFollow=false; };"/> ÈıÎ¬¸úËæ
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CreateLayerButton" onclick="AddBPD();">Ìí¼Ó</button>
-        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CreateLayerButton" onclick="DeleteBPD();">É¾³ı</button>        
+        <input type="checkbox" name="num" value="" onclick="if(this.checked==true) { isFollow=true; } else { isFollow=false; };"/> ä¸‰ç»´è·Ÿéš
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CreateLayerButton" onclick="AddBPD();">æ·»åŠ </button>
+        <button style="background-color:#2b2b2b; border:0px solid black; color:White; height:25px;" id="CreateLayerButton" onclick="DeleteBPD();">åˆ é™¤</button>        
         <span style="padding-left:10px;" />
     </td>
 </tr>
@@ -94,25 +94,23 @@
     <object id="SGWorld" style="display:none" classid="CLSID:3A4F9199-65A8-11D5-85C1-0001023952C1">    </object>
 
 	<script language="javascript" src="../ToolsCommon70.js"></script>
-	<script language="javascript" type="text/javascript" src="../jquery/jquery.min.js"></script>
-	<script language="javascript" type="text/javascript" src="../jquery/jquery.flot.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../JQuery/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.min.js"></script>
 	
-    	<script language="javascript" type="text/javascript" src="../jquery/jquery.flot.navigate.min.js"></script>
-      	<script language="javascript" type="text/javascript" src="../jquery/jquery-ui-1.10.4.custom.min.js"></script>
-        <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.resize.min.js"></script>
-        <script language="javascript" type="text/javascript" src="../jquery/jquery.flot.symbol.min.js"></script>
-	<script language="javascript" type="text/javascript" src="../jquery.flot.threshold.js"></script>
+    	<script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.navigate.min.js"></script>
+      	<script language="javascript" type="text/javascript" src="../JQuery/jquery-ui-1.10.4.custom.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.resize.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../JQuery/jquery.flot.symbol.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../JQuery.flot.threshold.js"></script>
 	
-         <script language="javascript" type="text/javascript" src="DMXClass.js"></script>
- 	<script language="javascript" type="text/javascript" src="allcommon.js"></script>
- <script language="javascript" type="text/javascript" src="zdmcommon.js"></script>
+         <script language="javascript" type="text/javascript" src="./DMXClass.js"></script>
+ 	<script language="javascript" type="text/javascript" src="./allcommon.js"></script>
+ <script language="javascript" type="text/javascript" src="./zdmcommon.js"></script>
 
 <script language="JavaScript">
   
 
-
 $(document).ready(function() { setTimeout(StartQuery, 500); });
-
 
 
 </script>

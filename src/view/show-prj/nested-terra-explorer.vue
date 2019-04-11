@@ -118,6 +118,33 @@ export default {
       let vid = this.skTools.FindFirstObjectID('视野', "")
       if(vid!="") this.sgWorld.Navigate.FlyTo(vid,0)
       this.sgWorld.AttachEvent('OnLButtonClicked', this.onLButtonClicked)
+      this.sgWorld.AttachEvent('OnProjectTreeAction', this.onProjectTreeAction)
+      
+  },
+  onProjectTreeAction (id, action) {
+    debugger
+    if (action.Code === 21) {
+      
+      let mcid = this.skTools.JudgeProjectNode(id);
+      if(this.mCurCaseID==mcid) return;
+      this.mCurCaseID=mcid
+      
+      this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
+      try{
+        this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
+      }catch(error){
+        console.log(error)
+      }
+      
+      if(this.baselineobj){
+        this.dmx.DMX_DrawBySetLC(this.baselineobj)
+        this.mileageReady = true
+        this.setMileageReady(true)
+      }else{
+        this.setMileageReady(false)
+        this.mileageReady = false
+      }
+    }
   },
   onLButtonClicked (Flags, X, Y) {
    // debugger

@@ -15,11 +15,11 @@ function CommonToolTip(pos)
 	var htmlStr = "";
  	var mTop,mLeft=0;
  	
- 	 htmlStr ="Àï³Ì£º"+ pos.x.toFixed(2)+"<br/>¸ß³Ì: " + pos.y.toFixed(2);
+ 	 htmlStr ="é‡Œç¨‹ï¼š"+ pos.x.toFixed(2)+"<br/>é«˜ç¨‹: " + pos.y.toFixed(2);
  	 var eh,th;
  	 eh = DMX_getlcElev(pos.x);
  	 th = DMX_getTrackH(pos.x);
- 	 htmlStr +="<br/>µØÃæ¸ß£º"+ eh.toFixed(2)+"<br/>¹ìÃæ¸ß: " + th.toFixed(2)+"<br/>¾»¸ß: " + (th-eh).toFixed(2);
+ 	 htmlStr +="<br/>åœ°é¢é«˜ï¼š"+ eh.toFixed(2)+"<br/>è½¨é¢é«˜: " + th.toFixed(2)+"<br/>å‡€é«˜: " + (th-eh).toFixed(2);
 	   var  o = gPlot.pointOffset({x: pos.x, y: pos.y})
 	   mTop =  o.top  + 5;
 	   mLeft=  o.left + 15;
