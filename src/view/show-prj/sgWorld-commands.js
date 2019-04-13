@@ -3,6 +3,7 @@ import { _HTML_POPUP_FLAGS } from './SGWorldAPIEnums.js'
 import SKCommonTools from './SKCommonTools.js'
 import HDMCrossBox from './HDMCrossBox.js'
 import MoniTrackor from './MoniTrackor.js'
+import {export_array_to_csv}  from '@/libs/excel.js'
 
 class SGWorldCommands {
   constructor (sgworld) {
@@ -68,7 +69,6 @@ debugger
   // 提取纵断面
   extractVerticalSection () {
     if (this.sgWorld) {
-      alert('todo')
     }
   }
   // 提取横断面
@@ -81,6 +81,7 @@ debugger
   loadIMap () {
     if (this.sgWorld) {
       let prefixUrl = window.location.origin + this.baseUrl
+      alert(prefixUrl + 'mapres/地理环境.fly');
       this.sgWorld.ProjectTree.LoadFlyLayer(prefixUrl + 'mapres/地理环境.fly', '')
     }
   }
@@ -148,6 +149,14 @@ debugger
     if (this.sgWorld) {
       alert('todo')
     }
+  }
+  exportCSV () {
+    const myCars = [
+      [1,2,3],
+      [11,21,31],
+      [12,23,33]
+    ];
+    export_array_to_csv(myCars);
   }
 }
 

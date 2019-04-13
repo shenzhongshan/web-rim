@@ -1,5 +1,6 @@
 /* eslint-disable */
 import XLSX from 'xlsx';
+import FileSaver from 'file-saver';
 
 function auto_width(ws, data){
     /*set worksheet max width per col*/
@@ -105,7 +106,21 @@ export const read = (data, type) => {
     return {header, results};
 }
 
+export const export_array_to_csv = (data, filename=`unname.csv`)  => {
+    let csvData = ''
+    for(let itm of data) {
+       let line = ''
+       for(let val of itm){
+        line += val + ','
+       }
+       csvData += line.replace(/,$/, '\n')
+    }
+    const blob = new Blob(['\uFEFF' + csvData], {type: 'text/plain;charset=utf-8;'})
+    FileSaver.saveAs(blob, filename)
+}
+
 export default {
+  export_array_to_csv,
   export_table_to_excel,
   export_array_to_excel,
   export_json_to_excel,
