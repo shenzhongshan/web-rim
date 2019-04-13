@@ -13,7 +13,7 @@ Mock.setup({
 // Mock.mock(/\/get_info/, getUserInfo)
 // Mock.mock(/\/logout/, logout)
 Mock.mock(/\/ListProjectsHandler.ashx/, getProjectList)
-
+Mock.mock(/\/uploadPrjLogoHandler.ashx/, { status: 'succ' })
 // Mock.mock(/\/save_error_logger/, 'success')
 // Mock.mock(/\/message\/init/, getMessageInit)
 // Mock.mock(/\/message\/content/, getContentByMsgId)

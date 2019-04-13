@@ -7,6 +7,18 @@ export const getProjectList = () => {
   })
 }
 
+export const uploadPrjLogo = (prjDir, logoFile) => {
+  let formdata = new FormData()
+  formdata.append('prjDir', prjDir)
+  formdata.append('logoFile', logoFile)
+
+  return axios.request({
+    url: 'uploadPrjLogoHandler.ashx',
+    method: 'post',
+    data: formdata
+  })
+}
+
 export const errorReq = () => {
   return axios.request({
     url: 'error_url',

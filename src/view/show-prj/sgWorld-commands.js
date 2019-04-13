@@ -4,6 +4,7 @@ import SKCommonTools from './SKCommonTools.js'
 import HDMCrossBox from './HDMCrossBox.js'
 import MoniTrackor from './MoniTrackor.js'
 import {export_array_to_csv}  from '@/libs/excel.js'
+import {uploadPrjLogo} from '@/api/data'
 
 class SGWorldCommands {
   constructor (sgworld) {
@@ -25,15 +26,16 @@ class SGWorldCommands {
   Capturelogo()
   {
     
-    let fn=this.sgWorld.Project.Name;
+    let fn = this.sgWorld.Project.Name;
     fn=fn.toLowerCase()
 
     fn=fn.replace(".fly",".jpg");    
-    let nfn=this.sgWorld.window.GetSnapShot(true,800,500,"JPeg75",0);
+    let nfn = this.sgWorld.window.GetSnapShot(true,800,500,"JPeg75",0); // new Blob(['<a id="a"><b id="b">hey!</b></a>'], { type: "text/xml"})
     // alert(nfn);
-    let fso = new ActiveXObject("Scripting.FileSystemObject");
-    fso.MoveFile(nfn, fn)
-    alert("提取成功！")
+    this.uploadLogo(fn,nfn)
+    // let fso = new ActiveXObject("Scripting.FileSystemObject");
+    // fso.MoveFile(nfn, fn)
+    //alert("提取成功！")
 
   }
 
@@ -157,6 +159,16 @@ debugger
       [12,23,33]
     ];
     export_array_to_csv(myCars);
+  }
+  uploadLogo(prjDir,logoFile){
+    console.log('上传logo',prjDir,logoFile)
+    uploadPrjLogo(prjDir,logoFile).then((res)=>{
+      alert('提取项目LOGO成功！')
+      console.log(res)
+    }).catch((err=>{
+      alert(err)
+      console.log(err)
+    }))
   }
 }
 
