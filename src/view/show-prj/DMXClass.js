@@ -30,7 +30,7 @@ export default class DMXClass {
     let polylineGeometry = obj.Geometry
 
     this.gPositionsArray = []
-    this.gGridArray[0] = []
+    this.gGridArray[0] = []  //gGridArray[0][1][0],gGridArray[0][1][1]
     this.gGridArray[1] = []
     this.gMinAltitude = 999999999
 

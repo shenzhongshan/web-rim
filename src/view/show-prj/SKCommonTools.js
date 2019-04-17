@@ -23,6 +23,8 @@ class SKCommonTools {
             console.log(err)
           }
           id = this.mSGWorld.ProjectTree.GetNextItem(id, ItemCode.PARENT);
+          let sn=this.mSGWorld.ProjectTree.GetItemName(id);
+          alert(sn);
           if (id == this.mSGWorld.ProjectTree.RootID) return "";
           if (id == "") return "";
       } while (true);
@@ -178,7 +180,7 @@ class SKCommonTools {
   }
 
   GetSelFeatureID() {
-    let id = this.mSGWorld.ProjectTree.GetNextItem(this.mSGWorld.ProjectTree.RootID, ItemCode.SELECTED);    
+    let id = this.mSGWorld.ProjectTree.GetNextItem(this.mSGWorld.ProjectTree.RootID, ItemCode.SELECTED);
     return id;
 }
 }

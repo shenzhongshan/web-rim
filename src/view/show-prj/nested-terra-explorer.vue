@@ -61,12 +61,15 @@ export default {
       placement: 'right',
       draggable: false,
       sgWorld: null,
-      skTools:null,
-      mCurCaseID: null,
-      baselineID: null,
-      baselineobj: null,
-      mileageReady: false,
-      dmx: null
+      commonVar: {
+        sgWorld: null,
+        skTools:null,
+        mCurCaseID: null,
+        baselineID: null,
+        baselineobj: null,
+        mileageReady: false,
+        dmx: null,
+      }
     }
   },
   computed: {
@@ -93,56 +96,58 @@ export default {
       setTimeout(()=>{
         if (this.projectURL) {
           this.sgWorld = this.$refs.TE3DExternal.CreateInstance('TerraExplorerX.SGWorld70')
+          this.commonVar.sgWorld = this.sgWorld
         }
       },5000)
     },
     onLoadFinished (){
+      debugger
       this.$refs.TEInfoExternal.AttachTo3dWindow(this.$refs.TE3DExternal)
-      this.mCurCaseID = this.skTools.FindFirstCaseID()
-      this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
+      this.commonVar.mCurCaseID = this.commonVar.skTools.FindFirstCaseID()
+      this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
       try{
-        this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
+        this.commonVar.baselineobj = this.sgWorld.ProjectTree.GetObject(this.commonVar.baselineID)
       }catch(error){
         console.log(error)
       }
-      
-      if(this.baselineobj){
-        this.dmx.DMX_DrawBySetLC(this.baselineobj)
-        this.mileageReady = true
+
+      if(this.commonVar.baselineobj){
+        this.commonVar.dmx.DMX_DrawBySetLC(this.commonVar.baselineobj)
+        this.commonVar.mileageReady = true
         this.setMileageReady(true)
       }else{
         this.setMileageReady(false)
-        this.mileageReady = false
+        this.commonVar.mileageReady = false
       }
       //定位到默认位置
-      let vid = this.skTools.FindFirstObjectID('视野', "")
+      let vid = this.commonVar.skTools.FindFirstObjectID('视野', "")
       if(vid!="") this.sgWorld.Navigate.FlyTo(vid,0)
       this.sgWorld.AttachEvent('OnLButtonClicked', this.onLButtonClicked)
       this.sgWorld.AttachEvent('OnProjectTreeAction', this.onProjectTreeAction)
-      
+
   },
   onProjectTreeAction (id, action) {
     debugger
     if (action.Code === 21) {
-      
-      let mcid = this.skTools.JudgeProjectNode(id);
-      if(this.mCurCaseID==mcid) return;
-      this.mCurCaseID=mcid
-      
-      this.baselineID = this.skTools.FindFirstObjectID('基线', this.mCurCaseID)
+
+      let mcid = this.commonVar.skTools.JudgeProjectNode(id);
+      if(this.commonVar.mCurCaseID==mcid) return;
+      this.commonVar.mCurCaseID=mcid
+
+      this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
       try{
-        this.baselineobj = this.sgWorld.ProjectTree.GetObject(this.baselineID)
+        this.commonVar.baselineobj = this.sgWorld.ProjectTree.GetObject(this.commonVar.baselineID)
       }catch(error){
         console.log(error)
       }
-      
-      if(this.baselineobj){
-        this.dmx.DMX_DrawBySetLC(this.baselineobj)
-        this.mileageReady = true
+
+      if(this.commonVar.baselineobj){
+        this.commonVar.dmx.DMX_DrawBySetLC(this.commonVar.baselineobj)
+        this.commonVar.mileageReady = true
         this.setMileageReady(true)
       }else{
         this.setMileageReady(false)
-        this.mileageReady = false
+        this.commonVar.mileageReady = false
       }
     }
   },
@@ -152,32 +157,32 @@ export default {
       let mpos = this.sgWorld.Window.GetMouseInfo()
       let wp = this.sgWorld.Window.PixelToWorld(mpos.X, mpos.Y).Position.ToAbsolute()
       let sResult = "地理坐标：" + wp.X.toFixed(6) + "," + wp.Y.toFixed(6) + "," + wp.Altitude.toFixed(2)
-      if (!this.mileageReady){
+      if (!this.commonVar.mileageReady){
           this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
           return false
       }
 
-      if (this.mCurCaseID === ""){
+      if (this.commonVar.mCurCaseID === ""){
         sResult += "【无线位方案关联】请在结构树上选择节点关联线位查看里程";
         this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
         return false;
       }
 
-      let sn = this.sgWorld.ProjectTree.GetItemName(this.mCurCaseID);
-      let len = this.dmx.endlc - this.dmx.firstlc
+      let sn = this.sgWorld.ProjectTree.GetItemName(this.commonVar.mCurCaseID);
+      let len = this.commonVar.dmx.endlc - this.commonVar.dmx.firstlc
       sResult += "当前方案：【" + sn + "】   线路长度：" + len.toFixed(2)
      // debugger
-      let [pos, lc, offset] = this.dmx.GetBLPointByWxy(mpos.X, mpos.Y);
-      let th = this.dmx.DMX_getTrackH(lc)
+      let [pos, lc, offset] = this.commonVar.dmx.GetBLPointByWxy(mpos.X, mpos.Y);
+      let th = this.commonVar.dmx.DMX_getTrackH(lc)
 
       let str = "";
       if (offset >= 0) {
         sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(左)" + offset.toFixed(2)
       } else {
         offset = Math.abs(offset)
-        sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(右)" + offset.toFixed(2)                
+        sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(右)" + offset.toFixed(2)
       }
-      this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)     
+      this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
       return false
     }
   },
@@ -190,9 +195,10 @@ export default {
     },
     sgWorld: function(val){
       if (this.sgWorld) {
-        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld))
-        this.skTools = new SKCommonTools(this.sgWorld)
-        this.dmx = new DMXClass(this.sgWorld, this)
+        this.commonVar.sgWorld = this.sgWorld
+        this.commonVar.skTools = new SKCommonTools(this.sgWorld)
+        this.commonVar.dmx = new DMXClass(this.sgWorld, this)
+        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld,this.commonVar.dmx, this.commonVar))
         this.sgWorld.AttachEvent('OnLoadFinished', this.onLoadFinished)
         this.sgWorld.Project.Open(this.projectURL)
 

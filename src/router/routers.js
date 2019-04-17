@@ -188,9 +188,9 @@ export default [{
         name: 'extractVerticalSection',
         meta: {
           icon: 'md-funnel',
-          command: 'extractCrossSection',
+          command: 'extractVerticalSection',
           mileage: true,
-          title: '提取纵断面'
+          title: '提取地面线'
         },
         component: nullpage
       },

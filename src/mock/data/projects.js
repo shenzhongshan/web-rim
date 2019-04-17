@@ -8,7 +8,7 @@ export const prjList = [
   {
     logo: '',
     title: 'prj2',
-    path: 'F:\\工程演示\\武襄十\\main.fly',
+    path: 'C:\\WebRIM\\共享数字铁路项目\\太仓港支线铁路\\main.FLY',
     desc: '这是一个表述，这是一个表述，这是一个表述，这是一个表述'
   },
   {

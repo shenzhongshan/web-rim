@@ -7,10 +7,12 @@ import {export_array_to_csv}  from '@/libs/excel.js'
 import {uploadPrjLogo} from '@/api/data'
 
 class SGWorldCommands {
-  constructor (sgworld) {
+  constructor (sgworld, dmx, commonVar) {
     this.sgWorld = sgworld
     this.baseUrl = process.env.BASE_URL
     this.skTools = new SKCommonTools(sgworld)
+    this.dmx = dmx
+    this.commonVar = commonVar
   }
   saveProject () {
     if (this.sgWorld) {
@@ -25,11 +27,11 @@ class SGWorldCommands {
 
   Capturelogo()
   {
-    
+
     let fn = this.sgWorld.Project.Name;
     fn=fn.toLowerCase()
 
-    fn=fn.replace(".fly",".jpg");    
+    fn=fn.replace(".fly",".jpg");
     let nfn = this.sgWorld.window.GetSnapShot(true,800,500,"JPeg75",0); // new Blob(['<a id="a"><b id="b">hey!</b></a>'], { type: "text/xml"})
     // alert(nfn);
     this.uploadLogo(fn,nfn)
@@ -66,11 +68,13 @@ debugger
         msg.Flags = flags
         this.sgWorld.Window.ShowPopup(msg)
       }
-    
+
   }
-  // 提取纵断面
+  // 提取地面线
   extractVerticalSection () {
     if (this.sgWorld) {
+      debugger
+      export_array_to_csv(this.dmx.gGridArray[0],'' + '地面线.cvs');
     }
   }
   // 提取横断面
@@ -151,14 +155,6 @@ debugger
     if (this.sgWorld) {
       alert('todo')
     }
-  }
-  exportCSV () {
-    const myCars = [
-      [1,2,3],
-      [11,21,31],
-      [12,23,33]
-    ];
-    export_array_to_csv(myCars);
   }
   uploadLogo(prjDir,logoFile){
     console.log('上传logo',prjDir,logoFile)
