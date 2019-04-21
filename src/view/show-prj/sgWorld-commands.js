@@ -7,12 +7,13 @@ import {export_array_to_csv}  from '@/libs/excel.js'
 import {uploadPrjLogo} from '@/api/data'
 
 class SGWorldCommands {
-  constructor (sgworld, dmx, commonVar) {
+  constructor (sgworld, dmx, commonVar, hostVue) {
     this.sgWorld = sgworld
     this.baseUrl = process.env.BASE_URL
     this.skTools = new SKCommonTools(sgworld)
     this.dmx = dmx
     this.commonVar = commonVar
+    this.hostVue = hostVue
   }
   saveProject () {
     if (this.sgWorld) {
@@ -126,7 +127,6 @@ class SGWorldCommands {
       //对当前选择的线要素提取地面线
       let mCurID = this.skTools.GetSelFeatureID();
       let sn=this.sgWorld.ProjectTree.GetItemName(mCurID);
-      alert("todo")
     }
 
 

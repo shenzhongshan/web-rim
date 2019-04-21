@@ -65,7 +65,7 @@ export default {
         sgWorld: null,
         skTools:null,
         mCurCaseID: null,
-        baselineID: null,       
+        baselineID: null,
         mileageReady: false,
         dmx: null,
       }
@@ -126,7 +126,7 @@ export default {
 
   },
   onProjectTreeAction (id, action) {
-    
+
     if (action.Code === 21) {
 
       let mcid = this.commonVar.skTools.JudgeProjectNode(id);
@@ -144,7 +144,7 @@ export default {
       //有效方案
 
       this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
-      
+
       let baselineobj = this.sgWorld.ProjectTree.GetObject(this.commonVar.baselineID)
 
       if(baselineobj){
@@ -203,7 +203,7 @@ export default {
         this.commonVar.sgWorld = this.sgWorld
         this.commonVar.skTools = new SKCommonTools(this.sgWorld)
         this.commonVar.dmx = new DMXClass(this.sgWorld, this)
-        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld,this.commonVar.dmx, this.commonVar))
+        this.setSGWorldCommand(new SGWorldCommands(this.sgWorld,this.commonVar.dmx, this.commonVar, this))
         this.sgWorld.AttachEvent('OnLoadFinished', this.onLoadFinished)
         this.sgWorld.Project.Open(this.projectURL)
 
