@@ -47,7 +47,7 @@ class SGWorldCommands {
 
       let itemName = this.skTools.GetSelFeatureName()
       let url = ''
-      let mCurID = this.skTools.GetSelFeatureID()      
+      let mCurID = this.skTools.GetSelFeatureID()
       let flags = _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_DRAG | _HTML_POPUP_FLAGS.HTML_POPUP_ALLOW_RESIZE
       let prefixUrl = window.location.origin + this.baseUrl
       if (itemName.indexOf('基线') > -1) {
@@ -72,7 +72,7 @@ class SGWorldCommands {
   }
   // 提取地面线
   extractVerticalSection () {
-    if (!this.sgWorld) return;    
+    if (!this.sgWorld) return;
        alert(this.commonVar.mCurCaseID);
       if(this.commonVar.mCurCaseID!="")
       {
@@ -93,7 +93,7 @@ class SGWorldCommands {
         // this.commonVar.dmx.DMX_DrawByDist();
         alert("todo")
       }
-    
+
   }
   // 提取横断面
   extractCrossSection () {
@@ -102,16 +102,16 @@ class SGWorldCommands {
 
     if(this.commonVar.mCurCaseID!="")
     {
-      let sn=this.sgworld.ProjectTree.GetItemName(this.commonVar.mCurCaseID);
+      let sn=this.sgWorld.ProjectTree.GetItemName(this.commonVar.mCurCaseID);
       let slc,elc,step,range,sampe;
-      slc=parseFloat(this.sgworld.ProjectTree.GetClientData(this.commonVar.mCurCaseID,"StartLC"));
+      slc=parseFloat(this.sgWorld.ProjectTree.GetClientData(this.commonVar.mCurCaseID,"StartLC"));
       var t=prompt("请输入起始里程：",slc.toFixed(2));
       slc=parseFloat(t);
 
-      elc=parseFloat(this.sgworld.ProjectTree.GetClientData(this.commonVar.mCurCaseID,"EndLC"));
+      elc=parseFloat(this.sgWorld.ProjectTree.GetClientData(this.commonVar.mCurCaseID,"EndLC"));
       var t=prompt("请输入终止里程：",elc.toFixed(2));
       elc=parseFloat(t);
-     
+
       step=parseFloat(prompt("请输入断面间距：","25"));
 
       range=parseFloat(prompt("请输入断面左右边幅：","50"));
@@ -125,7 +125,7 @@ class SGWorldCommands {
     {
       //对当前选择的线要素提取地面线
       let mCurID = this.skTools.GetSelFeatureID();
-      let sn=this.sgworld.ProjectTree.GetItemName(mCurID);
+      let sn=this.sgWorld.ProjectTree.GetItemName(mCurID);
       alert("todo")
     }
 
@@ -160,7 +160,7 @@ class SGWorldCommands {
 
       let sn=this.sgworld.ProjectTree.GetItemName(mCurID);
       this.sgWorld.ProjectTree.SaveAsKml(sn,mCurID);
-      
+
     }
   }
   // 导出FLY

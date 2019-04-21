@@ -301,13 +301,13 @@ projectonline (pos) {
 GetHDMArray(fromlc,elc,step,range,sample)
 {
   var hdmgrid=[];
-
+  var off=-range;
   //标题行
   var hdm =[];
   hdm.push("里程\左右距");
   while(off<range)
   {
-    hdm.push(off.toFix(1));
+    hdm.push(off.toFixed(1));
     off+=sample;
   }
   hdmgrid.push(hdm);
@@ -317,15 +317,16 @@ GetHDMArray(fromlc,elc,step,range,sample)
   var eh;
   while(lc<elc)
   {
+    debugger
      off=-range;
      hdm =[];
-     hdm.push(lc.toFix(2));
+     hdm.push(lc.toFixed(2));
     while(off<range)
-    {
-      pos = GetBLPointByLc(lc,off);
+    {debugger
+      pos = this.GetBLPointByLc(lc,off);
       eh = this.SGWorld.Terrain.GetGroundHeightInfo(pos.X, pos.Y, 2, true).Position.Altitude
-      hdm.push(eh.toFix(2));
-      off+=sample;      
+      hdm.push(eh.toFixed(2));
+      off+=sample;
     }
     hdmgrid.push(hdm);
     lc+=step;
@@ -335,19 +336,19 @@ GetHDMArray(fromlc,elc,step,range,sample)
 
 
 //Get3DPointArray()
-Get3DPointArray (lc, offset) 
+Get3DPointArray (lc, offset)
 {
    if(lc.length!=offset.length) return null;
    var point3dflist=[];
-   for (var i = 0; i < lc.length; i++) 
+   for (var i = 0; i < lc.length; i++)
    {
-       var pos = GetBLPointByLc(lc[i],offset[i]);
+       var pos = this.GetBLPointByLc(lc[i],offset[i]);
        point3dflist.push(pos.x);
        point3dflist.push(pos.y);
        point3dflist.push(pos.Altitude);
    }
    return point3dflist;
-  
+
 }
 
 // 根据线路里程、左右距计算返回坐标点与轨面高
