@@ -142,8 +142,21 @@ class SGWorldCommands {
   // 加载KML/FLY文件
   loadKmlFly () {
     if (this.sgWorld) {
-      this.sgWorld.Creator.CreateKMLLayer()
-      this.sgWorld.ProjectTree.LoadFlyLayer()
+      let theFile = null;
+      this.hostVue.$refs.TE3DExternal.style.display='none'
+      this.hostVue.$Modal.confirm({
+        title: '请选择加载文件',
+        content:'<input id="loadKmlFly_filehd" type="file">',
+        onOk: () => {
+          theFile = document.querySelector('#loadKmlFly_filehd').value
+          this.hostVue.$refs.TE3DExternal.style.display='block'
+          this.sgWorld.Creator.CreateKMLLayer(theFile)
+          //this.sgWorld.ProjectTree.LoadFlyLayer(theFile,)
+        },
+        onCancel: () => {
+          this.hostVue.$refs.TE3DExternal.style.display='block'
+        }
+      })
     }
   }
   // 从服务器加载...
