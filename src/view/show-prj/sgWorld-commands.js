@@ -19,7 +19,7 @@ class SGWorldCommands {
 
       let vid = this.skTools.FindFirstObjectID('视野', "")
       if(vid!="") this.sgWorld.ProjectTree.DeleteItem(vid)
-      this.sgWorld.Creator.CreateLocationHere(StaticCommon.mSGWorld.ProjectTree.RootID, "视野");
+      this.sgWorld.Creator.CreateLocationHere(this.sgWorld.ProjectTree.RootID, "视野");
 
       this.sgWorld.Project.Save()
     }
@@ -77,13 +77,13 @@ class SGWorldCommands {
       if(this.commonVar.mCurCaseID!="")
       {
         debugger
-        let sn=this.sgworld.ProjectTree.GetItemName(this.commonVar.mCurCaseID);
+        let sn=this.sgWorld.ProjectTree.GetItemName(this.commonVar.mCurCaseID);
         export_array_to_csv(this.dmx.gGridArray[0],sn + '地面线.cvs');
       }else
       {
         //对当前选择的线要素提取地面线
         let mCurID = this.skTools.GetSelFeatureID();
-        let sn=this.sgworld.ProjectTree.GetItemName(mCurID);
+        let sn=this.sgWorld.ProjectTree.GetItemName(mCurID);
         let obj = this.sgWorld.ProjectTree.GetObject(mCurID);
       //  if(typeof(obj) ==  ITerrainPolyline70)
        // {
@@ -156,11 +156,14 @@ class SGWorldCommands {
   exportKML () {
     if (this.sgWorld) {
       let mCurID = this.skTools.GetSelFeatureID();
+      debugger
       if(!this.sgWorld.ProjectTree.IsGroup(mCurID)) mCurID=this.sgWorld.ProjectTree.GetNextItem(mCurID,15);
-
-      let sn=this.sgworld.ProjectTree.GetItemName(mCurID);
-      this.sgWorld.ProjectTree.SaveAsKml(sn,mCurID);
-
+      debugger
+      if(mCurID){
+        let sn=this.sgWorld.ProjectTree.GetItemName(mCurID);
+        let path = this.sgWorld.ProjectTree.SaveAsKml(sn,mCurID);
+        alert(`已导出到文件: [ ${path} ]`)
+      }
     }
   }
   // 导出FLY
