@@ -63,7 +63,7 @@ export default class DMXClass {
   }
 
   // 通过基线对象顶点距离自动计算里程来初始化this.gGridArray[0],好处对所有线都适用。
-  DMX_DrawByDist (polylineGeometry, obj) {
+  DMX_DrawByDist (polylineGeometry) {
     let lastCoord
     let currCoord
     let SegmentLength
@@ -296,6 +296,59 @@ projectonline (pos) {
 }
 
 // 下面是拓展函数
+
+//提取横断面
+GetHDMArray(fromlc,elc,step,range,sample)
+{
+  var hdmgrid=[];
+
+  //标题行
+  var hdm =[];
+  hdm.push("里程\左右距");
+  while(off<range)
+  {
+    hdm.push(off.toFix(1));
+    off+=sample;
+  }
+  hdmgrid.push(hdm);
+
+  var lc=fromlc;
+  var pos;
+  var eh;
+  while(lc<elc)
+  {
+     off=-range;
+     hdm =[];
+     hdm.push(lc.toFix(2));
+    while(off<range)
+    {
+      pos = GetBLPointByLc(lc,off);
+      eh = this.SGWorld.Terrain.GetGroundHeightInfo(pos.X, pos.Y, 2, true).Position.Altitude
+      hdm.push(eh.toFix(2));
+      off+=sample;      
+    }
+    hdmgrid.push(hdm);
+    lc+=step;
+  }
+  return hdmgrid;
+}
+
+
+//Get3DPointArray()
+Get3DPointArray (lc, offset) 
+{
+   if(lc.length!=offset.length) return null;
+   var point3dflist=[];
+   for (var i = 0; i < lc.length; i++) 
+   {
+       var pos = GetBLPointByLc(lc[i],offset[i]);
+       point3dflist.push(pos.x);
+       point3dflist.push(pos.y);
+       point3dflist.push(pos.Altitude);
+   }
+   return point3dflist;
+  
+}
 
 // 根据线路里程、左右距计算返回坐标点与轨面高
 GetBLPointByLc (lc, offset = 0) {

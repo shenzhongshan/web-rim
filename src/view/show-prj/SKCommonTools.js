@@ -15,7 +15,7 @@ class SKCommonTools {
   //给定节点向上追索到其项目节点
   JudgeProjectNode (id) {
       do {
-          debugger
+        //  debugger
           try {
             let s = this.mSGWorld.ProjectTree.GetClientData(id, "节点类型");
             if (s == "项目节点") return id;
@@ -24,7 +24,7 @@ class SKCommonTools {
           }
           id = this.mSGWorld.ProjectTree.GetNextItem(id, ItemCode.PARENT);
           let sn=this.mSGWorld.ProjectTree.GetItemName(id);
-          alert(sn);
+         // alert(sn);
           if (id == this.mSGWorld.ProjectTree.RootID) return "";
           if (id == "") return "";
       } while (true);

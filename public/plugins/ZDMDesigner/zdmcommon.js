@@ -21,7 +21,7 @@ function StartQuery()
         objectID = GetParamValue("ObjID", "0"); 
         gStep = 50;       
         CaseID =GetParamValue("CaseID", "0");  
-        alert(CaseID);
+       // alert(CaseID);
 	    bpdGroupID =  FindFirstObjectID('变坡点',CaseID);
         var obj = SGWorld.ProjectTree.GetObject(objectID);        
         
@@ -363,7 +363,7 @@ function DrawPDX()
 	gGridArray[2].push([lc, h]);   
 	
      curbpdid=SGWorld.ProjectTree.GetNextItem(curbpdid,13);
-     alert(curbpdid);
+     //alert(curbpdid);
     }
    
 }

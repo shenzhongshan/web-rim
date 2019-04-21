@@ -8,51 +8,40 @@ import SKCommonTools from './SKCommonTools.js'
 
 class HDMCrossBox {
 
-  constructor(sgworld, mLinePos) {
+  constructor(sgworld, commVar) {
     this.mSGWorld = sgworld
-    this.mLinePos = mLinePos
-    this.mSKTools = new SKCommonTools(sgworld)
+    this.commVar = commVar
     this.isStart = false
     this.prelc = -1
   }
 
   Start() {
-    if (!this.mLinePos.IsVaild) return;
+    if (!this.commVar.mileageReady) return;
     this.mSGWorld.AttachEvent('OnLButtonDown', MSGWorld_OnLButtonDown)
-
 
   }
   //  ITerrain3DRectBase70 mBox = null;
   ShowHDMCross(X, Y) {
     let offset = 10.0;
-    let pt = this.mLinePos.GetBLPoint(X, Y, offset);
-    if (Math.abs(pt.LC - this.prelc) < 0.5) return;
-    this.prelc = pt.LC;
+    let pt = this.commVar.dmx.GetBLPointByWxy(X, Y);
+    if (Math.abs(pt[1] - this.prelc) < 0.5) return;
+    this.prelc = pt[1];
     offset = 80;
 
-    let lc = pt.LC;
-    let mst = this.mLinePos.GetPoint3DFList([lc, lc, lc - 100.0, lc - 100.0], [offset, -offset, -offset, offset]);
-    for (var k = 0; k < 4; k++) mst[k].ZH = pt.ZH - 100;
-    for (var k = 0; k < 4; k++) mst.push(new Point3DF(mst[k].XB, mst[k].YL, pt.ZH + 100));
-    let geometry = this.mSGWorld.Creator.GeometryCreator.CreateLineStringGeometry(mst.toArray());
+    let lc = pt[1];
+    let mst = this.commVar.dmx.Get3DPointArray([lc, lc, lc - 100.0, lc - 100.0], [offset, -offset, -offset, offset]);
+    for (var k = 0; k < 4; k++) mst[3*k+2] = pt[0].Altitude - 100;
+    for (var k = 0; k < 4; k++) 
+    {
+      mst.push(mst[3*k]);
+      mst.push(mst[3*k+1]);
+      mst.push(pt[0].Altitude + 100);
+    }
+    //mst.push(new Point3DF(mst[k].XB, mst[k].YL, pt.ZH + 100));
+        
+    let geometry = this.mSGWorld.Creator.GeometryCreator.CreateLineStringGeometry(mst);
     this.mSGWorld.Analysis.ShowCrossSectionBox(geometry, false, "#FFFF00FF");
-    //LinePoint mloc = this.mLinePos.GetBLPoint((float)pt.LC+0.5f);
-    //mloc.ZH = mst[0].ZH;
-    //IPosition70 pos =  this.mSKTools.CreatePosion(mloc);
-    //if (mBox==null)
-    //{
-    //    mBox = this.mSGWorld.Creator.CreateBox(pos, 0.4, 180, 200);
-    //    mBox.SaveInFlyFile = false;
-    //    mBox.SetParam(5450, 1);
-    //    mBox.FillStyle.Color.FromHTMLColor("#646464");
-    //    mBox.FillStyle.Color.SetAlpha(50);
-    //    mBox.TreeItem.Name = pt.ToDKString()+"_横断�?";
-    //}
-    //else
-    //{
-    //    mBox.Position = pos;
-    //    mBox.TreeItem.Name = pt.ToDKString() + "_横断�?";
-    //}
+    
 
   }
 

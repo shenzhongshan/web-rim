@@ -65,8 +65,7 @@ export default {
         sgWorld: null,
         skTools:null,
         mCurCaseID: null,
-        baselineID: null,
-        baselineobj: null,
+        baselineID: null,       
         mileageReady: false,
         dmx: null,
       }
@@ -127,28 +126,34 @@ export default {
 
   },
   onProjectTreeAction (id, action) {
-    debugger
+    
     if (action.Code === 21) {
 
       let mcid = this.commonVar.skTools.JudgeProjectNode(id);
       if(this.commonVar.mCurCaseID==mcid) return;
       this.commonVar.mCurCaseID=mcid
 
-      this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
-      try{
-        this.commonVar.baselineobj = this.sgWorld.ProjectTree.GetObject(this.commonVar.baselineID)
-      }catch(error){
-        console.log(error)
+      if(this.commonVar.mCurCaseID=="")   //选择方案无效，应禁用部分菜单
+      {
+          this.commonVar.mileageReady = false;
+          this.setMileageReady(false);
+          this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
+          return;
       }
 
-      if(this.commonVar.baselineobj){
-        this.commonVar.dmx.DMX_DrawBySetLC(this.commonVar.baselineobj)
+      //有效方案
+
+      this.commonVar.baselineID = this.commonVar.skTools.FindFirstObjectID('基线', this.commonVar.mCurCaseID)
+      
+      let baselineobj = this.sgWorld.ProjectTree.GetObject(this.commonVar.baselineID)
+
+      if(baselineobj){
+        this.commonVar.dmx.DMX_DrawBySetLC(baselineobj)  //建立里程系
         this.commonVar.mileageReady = true
         this.setMileageReady(true)
-      }else{
-        this.setMileageReady(false)
-        this.commonVar.mileageReady = false
       }
+
+
     }
   },
   onLButtonClicked (Flags, X, Y) {
@@ -182,7 +187,7 @@ export default {
         offset = Math.abs(offset)
         sResult += "位置：" + lc.toFixed(2) + "; 轨面高：" + th.toFixed(2) + "; 净高：" + (th - wp.Altitude).toFixed(2) + "; 偏离距离:(右)" + offset.toFixed(2)
       }
-      this.sgWorld.Window.ShowMessageBarText(sResult,1,20000)
+      this.sgWorld.Window.ShowMessageBarText(sResult,1,5000)
       return false
     }
   },
