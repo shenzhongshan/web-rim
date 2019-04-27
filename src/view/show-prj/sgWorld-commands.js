@@ -134,25 +134,40 @@ class SGWorldCommands {
   // 加载网络地图
   loadIMap () {
     if (this.sgWorld) {
-      let prefixUrl = window.location.origin + this.baseUrl
-      alert(prefixUrl + 'mapres/地理环境.fly');
-      this.sgWorld.ProjectTree.LoadFlyLayer(prefixUrl + 'mapres/地理环境.fly', '')
+      this.sgWorld.ProjectTree.LoadFlyLayer('../_mapres/地理环境.fly', '')
     }
   }
   // 加载KML/FLY文件
   loadKmlFly () {
+    let ival = ''
     if (this.sgWorld) {
-
       this.hostVue.$refs.TE3DExternal.style.display='none'
       this.hostVue.$Modal.confirm({
-        title: '请选择加载文件',
-        content:'<input id="loadKmlFly_filehd" type="file">',
+        title: '请输入加载文件',
+        render: (h) => {
+          return h('Input', {
+              props: {
+                  value: ival,
+                  autofocus: true,
+                  placeholder: '请输入加载文件(*.kml,*.kmz,*.fly)'
+              },
+              on: {
+                  input: (val) => {
+                    ival = val;
+                  }
+              }
+          })
+         },
         onOk: () => {
-          let theFile = document.querySelector('#loadKmlFly_filehd').value
+          let theFile = ival
           this.hostVue.$refs.TE3DExternal.style.display='block'
-         // this.sgWorld.Creator.CreateKMLLayer(theFile)
-         alert(theFile)
-          this.sgWorld.ProjectTree.LoadFlyLayer(theFile,"")
+          if(theFile && (theFile.lastIndexOf('.kml')>0 || theFile.lastIndexOf('.KML')>0 || theFile.lastIndexOf('.kmz')>0 || theFile.lastIndexOf('.KMZ')>0)){
+            this.sgWorld.Creator.CreateKMLLayer(theFile)
+          }else if(theFile && (theFile.lastIndexOf('.fly')>0 || theFile.lastIndexOf('.FLY')>0)){
+            this.sgWorld.ProjectTree.LoadFlyLayer(theFile,"")
+          }else{
+            alert('无效文件！')
+          }
         },
         onCancel: () => {
           this.hostVue.$refs.TE3DExternal.style.display='block'
